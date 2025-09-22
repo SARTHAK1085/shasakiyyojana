@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Schemes Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif']
+            },
+            backgroundImage: {
+                'farming-bg': "url('https://placehold.co/1200x800/transparent/transparent?text=Farming')",
+                'business-bg': "url('https://placehold.co/1200x800/transparent/transparent?text=Business')",
+                'education-bg': "url('https://placehold.co/1200x800/transparent/transparent?text=Education')",
+                'health-bg': "url('https://placehold.co/1200x800/transparent/transparent?text=Health')",
+                'sports-bg': "url('https://placehold.co/1200x800/transparent/transparent?text=Sports')",
+                'construction-bg': "url('https://placehold.co/1200x800/transparent/transparent?text=Construction')",
+                'women-bg': "url('https://placehold.co/1200x800/transparent/transparent?text=Women')"
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .page-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .page-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .scheme-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .scheme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .domain-button {
+            transition: transform 0.2s, background-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .domain-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .domain-button:hover::after {
+            opacity: 1;
+        }
+        .domain-button:hover {
+            transform: scale(1.05);
+            background-color: #4a5568;
+        }
+        .modal-item-title {
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .logo-text {
+            color: #4CAF50;
+        }
+        .qr-code-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <header class="bg-gray-800 text-white shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex items-center justify-between flex-wrap">
+            <a href="#" class="text-2xl font-bold flex items-center" onclick="showPage('home-page')">
+                <img src="Gemini_Generated_Image_sq6ywsq6ywsq6yws.png"Shasakiy Yojana Logo" class="w-10 h-10 mr-2 rounded-lg">
+                <span class="logo-text">SHASAKIY YOJANA</span>
+            </a>
+            <div class="flex items-center">
+                <a href="#about" class="mx-3 hover:text-gray-300 transition hidden md:block" data-en="About Us" data-mr="आमच्याबद्दल">About Us</a>
+                <a href="#motive" class="mx-3 hover:text-gray-300 transition hidden md:block" data-en="Our Motive" data-mr="आमचा उद्देश">Our Motive</a>
+                <a href="#contact" class="mx-3 hover:text-gray-300 transition hidden md:block" data-en="Contact" data-mr="संपर्क साधा">Contact</a>
+                <div class="mx-3">
+                    <input type="checkbox" id="language-toggle" class="hidden" checked>
+                    <label for="language-toggle" class="flex items-center cursor-pointer">
+                        <span class="w-10 h-6 bg-gray-600 rounded-full flex-shrink-0 p-1 duration-300 ease-in-out">
+                            <span class="bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out"></span>
+                        </span>
+                        <span class="ml-2 text-sm font-medium" data-en="EN" data-mr="मराठी">EN</span>
+                    </label>
+                </div>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800 text-white transition-all duration-300 ease-in-out">
+            <a href="#about" class="block py-2 px-6 hover:bg-gray-700" onclick="hideMobileMenu()" data-en="About Us" data-mr="आमच्याबद्दल">About Us</a>
+            <a href="#motive" class="block py-2 px-6 hover:bg-gray-700" onclick="hideMobileMenu()" data-en="Our Motive" data-mr="आमचा उद्देश">Our Motive</a>
+            <a href="#contact" class="block py-2 px-6 hover:bg-gray-700" onclick="hideMobileMenu()" data-en="Contact" data-mr="संपर्क साधा">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+
+        <!-- Home Page -->
+        <div id="home-page" class="page-content active">
+            <section class="bg-white rounded-xl shadow-lg p-8 text-center mb-12 relative overflow-hidden">
+                <div class="absolute inset-0 z-0 opacity-10">
+                    <img src="Gemini_Generated_Image_sq6ywsq6ywsq6yws.png" alt="Background image of rural development" class="w-full h-full object-cover">
+                </div>
+                <div class="relative z-10">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight mb-4" data-en="Empowering India Through Information" data-mr="माहितीच्या माध्यमातून भारताला सशक्त करूया">Empowering India Through Information</h1>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8" data-en="Your one-stop platform to discover and understand government schemes across various sectors." data-mr="विविध क्षेत्रातील सरकारी योजना शोधण्यासाठी आणि समजून घेण्यासाठी तुमचे एक-स्टॉप पोर्टल.">Your one-stop platform to discover and understand government schemes across various sectors.</p>
+                </div>
+                <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <button class="domain-button bg-gray-800 text-white py-4 px-6 rounded-xl shadow-lg hover:bg-gray-700 transition transform" onclick="showDomain('Farming')">
+                        <i class="fas fa-tractor text-3xl mb-2 text-green-400"></i>
+                        <div class="text-2xl font-semibold" data-en="Farming" data-mr="शेती">Farming</div>
+                    </button>
+                    <button class="domain-button bg-gray-800 text-white py-4 px-6 rounded-xl shadow-lg hover:bg-gray-700 transition transform" onclick="showDomain('Business')">
+                        <i class="fas fa-chart-line text-3xl mb-2 text-blue-400"></i>
+                        <div class="text-2xl font-semibold" data-en="Business" data-mr="व्यवसाय">Business</div>
+                    </button>
+                    <button class="domain-button bg-gray-800 text-white py-4 px-6 rounded-xl shadow-lg hover:bg-gray-700 transition transform" onclick="showDomain('Education')">
+                        <i class="fas fa-graduation-cap text-3xl mb-2 text-yellow-400"></i>
+                        <div class="text-2xl font-semibold" data-en="Education" data-mr="शिक्षण">Education</div>
+                    </button>
+                    <button class="domain-button bg-gray-800 text-white py-4 px-6 rounded-xl shadow-lg hover:bg-gray-700 transition transform" onclick="showDomain('Health')">
+                        <i class="fas fa-heartbeat text-3xl mb-2 text-red-400"></i>
+                        <div class="text-2xl font-semibold" data-en="Health" data-mr="आरोग्य">Health</div>
+                    </button>
+                    <button class="domain-button bg-gray-800 text-white py-4 px-6 rounded-xl shadow-lg hover:bg-gray-700 transition transform" onclick="showDomain('Sports')">
+                        <i class="fas fa-running text-3xl mb-2 text-cyan-400"></i>
+                        <div class="text-2xl font-semibold" data-en="Sports" data-mr="क्रीडा">Sports</div>
+                    </button>
+                    <button class="domain-button bg-gray-800 text-white py-4 px-6 rounded-xl shadow-lg hover:bg-gray-700 transition transform" onclick="showDomain('Construction')">
+                        <i class="fas fa-hard-hat text-3xl mb-2 text-orange-400"></i>
+                        <div class="text-2xl font-semibold" data-en="Construction" data-mr="बांधकाम">Construction</div>
+                    </button>
+                    <button class="domain-button bg-gray-800 text-white py-4 px-6 rounded-xl shadow-lg hover:bg-gray-700 transition transform" onclick="showDomain('Women Empowerment')">
+                        <i class="fas fa-female text-3xl mb-2 text-pink-400"></i>
+                        <div class="text-2xl font-semibold" data-en="Women Empowerment" data-mr="महिला सक्षमीकरण">Women Empowerment</div>
+                    </button>
+                </div>
+            </section>
+
+            <section id="motive" class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-en="Our Motive and Aim" data-mr="आमचा उद्देश">Our Motive and Aim</h2>
+                <p class="text-gray-600 leading-relaxed" data-en="Our primary goal is to bridge the information gap between the government and its citizens. Many people, especially in rural and underserved areas, are unaware of the beneficial schemes launched for them. We aim to be a simple, accessible, and comprehensive platform that provides clear, concise, and accurate information about various government schemes. By making this information readily available, we hope to empower individuals and families to take advantage of the opportunities designed to improve their lives, livelihoods, and overall well-being." data-mr="सरकार आणि नागरिकांमधील माहितीची दरी भरून काढणे हे आमचे प्राथमिक उद्दिष्ट आहे. अनेक लोकांना, विशेषतः ग्रामीण आणि वंचित भागांमध्ये, त्यांच्यासाठी सुरू असलेल्या फायदेशीर योजनांची माहिती नसते. आम्ही एक सोपे, सुलभ आणि सर्वसमावेशक व्यासपीठ तयार करण्याचा प्रयत्न करत आहोत, जे विविध सरकारी योजनांबद्दल स्पष्ट, संक्षिप्त आणि अचूक माहिती देईल. ही माहिती सहज उपलब्ध करून, आम्ही लोकांना त्यांचे जीवन, उपजीविका आणि एकूणच कल्याण सुधारण्यासाठी तयार केलेल्या संधींचा लाभ घेण्यास सक्षम करू इच्छितो.">Our primary goal is to bridge the information gap between the government and its citizens. Many people, especially in rural and underserved areas, are unaware of the beneficial schemes launched for them. We aim to be a simple, accessible, and comprehensive platform that provides clear, concise, and accurate information about various government schemes. By making this information readily available, we hope to empower individuals and families to take advantage of the opportunities designed to improve their lives, livelihoods, and overall well-being.</p>
+            </section>
+
+            <section id="about" class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-en="About Us" data-mr="आमच्याबद्दल">About Us</h2>
+                <p class="text-gray-600 leading-relaxed" data-en="We are a dedicated team committed to social empowerment through digital literacy. Our platform is a community-driven project designed to simplify complex government information and present it in an easy-to-understand format. We believe that access to information is a fundamental right, and our work is a step towards ensuring that no one is left behind due to a lack of awareness. We continuously update our database to include the latest schemes and policies to serve as a reliable resource for everyone." data-mr="आम्ही डिजिटल साक्षरतेच्या माध्यमातून सामाजिक सक्षमीकरणासाठी समर्पित एक टीम आहोत. आमचे हे व्यासपीठ एक समुदाय-आधारित प्रकल्प आहे, ज्याचा उद्देश सरकारी माहिती सोपी करणे आणि ती सहज समजेल अशा स्वरूपात सादर करणे आहे. आमचा विश्वास आहे की माहितीचा अधिकार हा एक मूलभूत हक्क आहे आणि आमचे कार्य हे सुनिश्चित करण्याच्या दिशेने एक पाऊल आहे की कोणीही जागरूकतेच्या अभावामुळे मागे राहणार नाही. आम्ही एक विश्वसनीय स्रोत म्हणून काम करण्यासाठी आमचा डेटाबेस सतत अद्ययावत करत असतो, जेणेकरून सर्वांना नवीनतम योजना आणि धोरणांची माहिती मिळेल.">We are a dedicated team committed to social empowerment through digital literacy. Our platform is a community-driven project designed to simplify complex government information and present it in an easy-to-understand format. We believe that access to information is a fundamental right, and our work is a step towards ensuring that no one is left behind due to a lack of awareness. We continuously update our database to include the latest schemes and policies to serve as a reliable resource for everyone.</p>
+            </section>
+
+            <section id="contact" class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-en="Contact Us" data-mr="संपर्क साधा">Contact Us</h2>
+                <div class="text-gray-600 leading-relaxed grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p data-en="For any queries or suggestions, please feel free to reach out to us." data-mr="कोणत्याही प्रश्नांसाठी किंवा सूचनांसाठी, कृपया आमच्याशी संपर्क साधा.">For any queries or suggestions, please feel free to reach out to us.</p>
+                        <p class="mt-2" data-en="Email: work.cepproject@gmail.com" data-mr="ईमेल: work.cepproject@gmail.com"><strong>Email:</strong> work.cepproject@gmail.com</p>
+                        <p data-en="Phone: +91-7066473019" data-mr="फोन:+91-7066473019"><strong>Phone:</strong>+91-7066473019</p>
+                        <p data-en="Address:PIMPARI CHINCHAWAD COLLEGE OF ENGINEERING ,PUNE, India" data-mr="पत्ता: पिंपरी चिंचवड कॉलेज ऑफ इंजिनीअरिंग ,पुणे , भारत"><strong>Address:</strong> Community Engagement Project,PIMPARI CHINCHAWAD COLLEGE OF ENGINEERING ,PUNE, India</p>
+                    </div>
+                    <div class="qr-code-section">
+                        <img src="qr.png" alt="QR Code to visit our website" class="mb-4">
+                        <p data-en="Scan to visit our website" data-mr="आमच्या वेबसाइटला भेट देण्यासाठी स्कॅन करा">Scan to visit our website</p>
+                        <a href="https://whatsapp.com/channel/0029VbBX7KuHrDZcNJFvhE10" style="color: blue; cursor: pointer; ">link for whatsapp</a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Dynamic Scheme List Page -->
+        <div id="schemes-page" class="page-content">
+            <button onclick="showPage('home-page')" class="bg-gray-800 text-white py-2 px-4 rounded-xl shadow-lg hover:bg-gray-700 transition mb-4" data-en="← Back to Home" data-mr="← मुख्यपृष्ठावर परत जा">← Back to Home</button>
+            <h2 id="schemes-heading" class="text-3xl font-bold text-gray-800 mb-6"></h2>
+            <div id="schemes-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Scheme buttons will be injected here by JS -->
+            </div>
+        </div>
+
+        <!-- Scheme Detail Modal -->
+        <div id="scheme-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+            <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+                <button onclick="hideModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div id="modal-content" class="mt-4">
+                    <!-- Scheme details will be injected here by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert/Message Box -->
+        <div id="alert-box" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 hidden transition-opacity duration-300" data-en="Content not found." data-mr="माहिती उपलब्ध नाही.">Content not found.</div>
+    </main>
+
+    <script>
+        const data = {
+            "en": {
+                "Farming": {
+                    "PM Kisan": {
+                        "benefits": "₹6,000 per year per farmer family, paid in three equal installments.",
+                        "details": "Launched by: Ministry of Agriculture & Farmers' Welfare. Launched in **February 2019** to provide direct income support to farmer families to meet their agricultural and household needs. **Objective**: To reduce financial stress and ensure livelihood security for farmers.",
+                        "amount": "₹6,000 per year",
+                        "eligibility": "All landholding farmer families with cultivable land records. Farmers must have **Aadhaar-linked bank accounts**. Includes small marginal, and medium farmers.",
+                        "exclusions": "Institutional landholders. Farmers or family members who are: income tax payers, serving/retired government employees, professionals such as doctors, engineers, lawyers, CA, and former/current MPs, MLAs, Ministers.",
+                        "application": "PM-KISAN official portal (pmkisan.gov.in), Common Service Centres (CSCs), and local revenue/agriculture offices.",
+                        "documents": "Aadhaar Card, Bank Account Details, Land Ownership Documents, Residence Proof, Mobile Number.",
+                        "youtube": "https://www.youtube.com/watch?v=Uq9ktF-QycY",
+                        "registration": "https://pmkisan.gov.in/homenew.aspx"
+                    },
+                    "PM Mudra Yojana": {
+                        "benefits": "Loans up to **₹10 lakh without collateral**.",
+                        "details": "Launched by: Ministry of Finance. Launched on **April 8, 2015**, to provide financial support to micro and small enterprises. **Objective**: To promote self-employment, entrepreneurship, and job creation.",
+                        "amount": "Up to ₹10 lakh",
+                        "eligibility": "Indian citizens aged 18-65 years. Individuals, proprietors, partnership firms. Must have a business plan for income-generating activity.",
+                        "exclusions": "Farmers engaged in agriculture and allied activities. Large corporate businesses. Applicants with defaulted loans or poor credit history.",
+                        "application": "Apply at any commercial bank, regional rural bank (RRB), small finance bank, or NBFC/MFI partnered with MUDRA.",
+                        "documents": "Identity Proof, Address Proof, Business Proof, Business Plan/Project Report, Bank Account Details, Photographs.",
+                        "youtube": "https://www.youtube.com/watch?v=SZyQ8dgx86g",
+                        "registration": "https://www.jansamarth.in/home"
+                    },
+                    "Pradhan Mantri Fasal Bima Yojana (PMFBY)": {
+                        "benefits": "Financial support for **crop loss/damage** due to natural calamities.",
+                        "details": "Launched in **2016** by the Ministry of Agriculture & Farmers' Welfare. **Objective**: Provide financial support to farmers in case of crop loss/damage due to natural calamities, pests, or diseases. Stabilize farmers' income and livelihood security.",
+                        "amount": "Based on crop loss",
+                        "eligibility": "All farmers growing notified crops in notified areas. Both loanee and non-loanee farmers are eligible.",
+                        "exclusions": "Crop loss due to war, nuclear risks, malicious damage, negligence, or illegal activities not covered.",
+                        "application": "Apply through Banks, Common Service Centres (CSCs), or official PMFBY portal.",
+                        "documents": "Identity Proof, Land Records (7/12 extract), Crop Sowing Certificate (if required), Bank Account Details, Photographs.",
+                        "youtube": "https://www.youtube.com/watch?v=r0nq1Xd2Wts",
+                        "registration": "https://pmfby.gov.in/"
+                    },
+                    "Soil Health Card Scheme": {
+                        "benefits": "**Soil health card** provided every 2 years to promote judicious use of fertilizers.",
+                        "details": "Launched in **2015** by the Ministry of Agriculture & Farmers' Welfare. **Objective**: To provide soil health cards to all farmers across India to promote balanced and judicious use of fertilizers and improve soil fertility.",
+                        "amount": "N/A",
+                        "eligibility": "All categories of farmers (small, marginal, medium, large) owning or cultivating land in India.",
+                        "exclusions": "Farmers who do not own or cultivate land. Landless laborers not engaged in cultivation.",
+                        "application": "Soil samples collected by agriculture department officials. Cards issued after testing in soil testing laboratories (STLs).",
+                        "documents": "Identity Proof, Land Ownership Documents (7/12 extract), Photograph.",
+                        "youtube": "https://youtu.be/SFKz_aEFfZw?si=4Jc4JEOphcDdj90n",
+                        "registration": "http://soil.health4.dac.gov.in/"
+                    },
+                    "Kisan Credit Card": {
+                        "benefits": "Timely and adequate credit for cultivation at an **effective interest rate of 4%**.",
+                        "details": "Launched in **1998** based on the recommendations of the R.V. Gupta Committee. **Objective**: To provide timely and adequate credit to farmers for cultivation and allied activities, reducing their dependence on moneylenders.",
+                        "amount": "Flexible credit limit",
+                        "eligibility": "All farmers (owner cultivators, tenant farmers, sharecroppers), Joint Liability Groups (JLGs) and Self-help groups (SHGs).",
+                        "exclusions": "Non-agricultural households not engaged in farming. Defaulters of previous agricultural loans. Farmers not cultivating or without proof of cultivation rights.",
+                        "application": "Apply at any commercial bank, cooperative bank, or regional rural bank (RRB). Online application also available via PM-Kisan portal.",
+                        "documents": "Identity Proof, Residence Proof, Land Ownership Documents, Photographs, Bank Account Details.",
+                        "youtube": "https://www.youtube.com/watch?v=lWj05R9NYMw",
+                        "registration": "https://jaankari.csccloud.in/kcc.html"
+                    },
+                    "PM-KUSUM": {
+                        "benefits": "**60% subsidy for solar irrigation pumps** to reduce dependency on grid electricity.",
+                        "details": "Launched in **March 2019** by the Ministry of New and Renewable Energy (MNRE). **Objective**: To subsidize farmers to install solar irrigation pumps for cultivation. This helps in achieving sustainable agriculture and energy security.",
+                        "amount": "60% subsidy",
+                        "eligibility": "Farmers with agricultural land. Scheme has three components, targeting different capacities of solar pumps.",
+                        "exclusions": "Projects not using specified components or those that do not meet technical standards.",
+                        "application": "Contact your state's nodal agency or a designated online portal.",
+                        "documents": "Aadhaar Card, Land Ownership Documents, Bank Account Details, Mobile Number, Photograph.",
+                        "youtube": "https://www.youtube.com/watch?v=A2dY2C8Rz7s",
+                        "registration": "https://mnre.gov.in/pm-kusum"
+                    }
+                },
+                "Business": {
+                    "Startup India": {
+                        "benefits": "**3 consecutive years of tax holiday**. Fast-tracked patent filing at reduced fees.",
+                        "details": "Launched on **January 16, 2016** by the Department for Promotion of Industry and Internal Trade (DPIIT). **Objective**: To promote entrepreneurship and build a strong ecosystem for startups by providing funding support, mentorship, and tax benefits.",
+                        "amount": "Tax exemptions, funding support",
+                        "eligibility": "Must be a private limited company, registered partnership firm, or LLP. Entity should be up to **10 years old** and annual turnover should not exceed **₹100 crore**.",
+                        "exclusions": "Businesses formed by splitting or reconstructing an existing business.",
+                        "application": "Apply for recognition through the DPIIT portal. Submit certificate of incorporation and a pitch deck/business plan.",
+                        "documents": "Certificate of Incorporation, PAN card of the startup, Business Plan, PAN and Aadhaar of directors/partners.",
+                        "youtube": "https://youtu.be/7hi31GVUVlE?si=2JSRbhe_pfr00p_b",
+                        "registration": "https://www.startupindia.gov.in/content/sih/en/login.html"
+                    },
+                    "MUDRA Yojana (PMMY)": {
+                        "benefits": "Loans up to **₹10 lakh without collateral**.",
+                        "details": "Launched on **April 8, 2015**, by the Ministry of Finance. **Objective**: To provide financial support to micro and small enterprises in the non-corporate, non-farm sector. **Loan Categories**: Shishu (up to ₹50,000), Kishor (₹50,001 to ₹5 lakh), Tarun (₹5 lakh to ₹10 lakh).",
+                        "amount": "Up to ₹10 lakh",
+                        "eligibility": "Indian citizens aged 18-65 years. Individuals, proprietors, partnership firms engaged in non-farm activities. Must have a business plan.",
+                        "exclusions": "Farmers engaged in agriculture and allied activities. Applicants with defaulted loans or poor credit history.",
+                        "application": "Apply at any commercial bank, regional rural bank (RRB), or NBFC/MFI partnered with MUDRA. Fill out the application form and submit documents.",
+                        "documents": "Identity Proof, Address Proof, Business Proof, Business Plan/Project Report, Bank Account Details, Photographs.",
+                        "youtube": "https://youtu.be/cn3RuR11jS4?si=H-fVduywoqBYM_vX",
+                        "registration": "https://www.jansamarth.in"
+                    },
+                    "PMEGP": {
+                        "benefits": "Financial assistance (subsidy) up to **35%** for setting up a new enterprise. Loan limits up to **₹25 lakh** for manufacturing and **₹10 lakh** for service units.",
+                        "details": "Launched in **2008** by the Ministry of Micro, Small & Medium Enterprises (MSME). **Objective**: To generate sustainable employment opportunities in rural and urban areas by establishing micro-enterprises.",
+                        "amount": "Up to ₹25 lakh (manufacturing)",
+                        "eligibility": "Individuals aged **18 years and above**. At least 8th standard pass for larger projects. Only **new projects** are eligible.",
+                        "exclusions": "Existing units are not eligible. Projects in the negative list (e.g., liquor, plastics below 20 microns).",
+                        "application": "Apply online through the PMEGP portal or at KVIC, KVIBs, and DICs offices. Submit application with a project report.",
+                        "documents": "Identity Proof, Address Proof, Educational Qualification Certificate, Project Report / Business Plan, Caste/Community Certificate.",
+                        "youtube": "https://youtu.be/P4BZDosFsQw?si=FGdDcujbL2FVe6uX",
+                        "registration": "https://www.kviconline.gov.in/pmegp-portal"
+                    },
+                    "Stand-Up India Scheme": {
+                        "benefits": "Bank loans between **₹10 lakh and ₹1 crore** for greenfield projects.",
+                        "details": "Launched on **April 5, 2016**. **Objective**: To promote entrepreneurship among **women and SC/ST entrepreneurs** by facilitating bank loans for setting up a greenfield enterprise (first-time venture).",
+                        "amount": "₹10 lakh to ₹1 crore",
+                        "eligibility": "SC/ST and/or women entrepreneurs. Applicant must be **at least 18 years of age**.",
+                        "exclusions": "Applicants who are defaulters to any bank/financial institution.",
+                        "application": "Apply at any Scheduled Commercial Bank or online through the Stand-Up Mitra portal.",
+                        "documents": "Proof of Residence, Business Address, Memorandum and Articles of Association, ITRs, Rent Agreement (if applicable).",
+                        "youtube": "https://www.youtube.com/watch?v=XWvN0qP9qC0",
+                        "registration": "https://www.standupmitra.in/"
+                    },
+                    "National Rural Livelihood Mission (NRLM)": {
+                        "benefits": "Interest subvention on loans for **Self-Help Groups (SHGs)**. Skill development and training.",
+                        "details": "Launched in **June 2011**. **Objective**: To reduce poverty by promoting sustainable livelihood opportunities for rural poor households. This is done by organizing them into **Self-Help Groups (SHGs)**.",
+                        "amount": "Varies",
+                        "eligibility": "Rural households identified as poor in **SECC 2011**. Priority is given to women-headed households, SC/ST, and landless households.",
+                        "exclusions": "Applies to rural areas only. Non-poor households are generally not eligible.",
+                        "application": "Join or form a Self-Help Group in your village. Apply for assistance through the SHG.",
+                        "documents": "Identity proof, Address proof, Caste certificate, Bank account details of beneficiary/SHG.",
+                        "youtube": "https://youtu.be/AZ4TWtVLTbI?si=hA4FdgU9UCZM2Kvu",
+                        "registration": "https://nrlm.gov.in/"
+                    }
+                },
+                "Education": {
+                    "Pradhan Mantri Uchchatar Shiksha Protsahan (PM-USP)": {
+                        "benefits": "**₹12,000/year for UG** and **₹20,000/year for PG** students from low-income families.",
+                        "details": "Launched by the Department of Higher Education. **Objective**: Financial aid to meritorious students from low-income families for higher studies. **Coverage**: 82,000 new scholarships annually.",
+                        "amount": "Up to ₹20,000 per year",
+                        "eligibility": "Must be in the **top 80th percentile in Class 12**. Family income must be **≤ ₹4.5 lakh**. Must be in a regular course.",
+                        "exclusions": "Students in distance/correspondence/diploma courses. Students already receiving another scholarship.",
+                        "application": "Apply via **National Scholarship Portal (NSP)** with Aadhaar e-KYC and document upload.",
+                        "documents": "Class 12 Marksheet, Income Certificate, Caste Certificate (if applicable), Disability Certificate (if applicable), Bonafide Certificate from institution, Aadhaar Card, Bank Account Details.",
+                        "youtube": "https://www.youtube.com/watch?v=AqB2dMZqvMQ",
+                        "registration": "https://scholarships.gov.in"
+                    },
+                    "Right to Education": {
+                        "benefits": "**Free and compulsory education** for children aged **6-14 years**.",
+                        "details": "Operationalized on **April 1, 2010**. **Objective**: To provide free and compulsory education to all children and ensure quality schooling, preventing child labour, and discrimination.",
+                        "amount": "Free education",
+                        "eligibility": "Children aged 6-14 years. Children from economically weaker sections (EWS) and socially disadvantaged groups are eligible for a **25% reservation** in private unaided schools.",
+                        "exclusions": "Children below 6 or above 14 years. Higher education (secondary and college level) is not covered.",
+                        "application": "Parents apply online/offline through state government RTE admission portal or at the nearest education office.",
+                        "documents": "Birth Certificate, Income Certificate (for EWS), Caste Certificate, Residence Proof, Photographs, Aadhaar Card.",
+                        "youtube": "https://www.youtube.com/watch?v=36nPUZdlsjU",
+                        "registration": "https://student.maharashtra.gov.in/adm/"
+                    },
+                    "Sukanya Samriddhi Scheme": {
+                        "benefits": "Encourages savings for a girl child's education with a **high interest rate** and **tax benefits** under Section 80C.",
+                        "details": "Introduced in **2015** under the Beti Bachao Beti Padhao campaign. **Objective**: To promote financial security and empowerment of girls. Implemented through Post Offices and authorized banks.",
+                        "amount": "Tax benefits, high interest",
+                        "eligibility": "Girl child must be a resident Indian. Account can be opened from birth till the age of **10 years**. **Only one account per girl child**.",
+                        "exclusions": "Non-resident Indians (NRIs). Multiple accounts for the same child.",
+                        "application": "Visit nearest Post Office or authorized bank. Fill the application form and submit with an initial deposit (₹250 minimum).",
+                        "documents": "Birth Certificate of the girl child, Identity Proof of parent/guardian, Address Proof, Photograph, Initial deposit receipt.",
+                        "youtube": "https://www.youtube.com/watch?v=-SGneTb923c",
+                        "registration": "https://onlinesujeet1.blogspot.com/"
+                    },
+                    "Prime Minister's Scholarship Scheme": {
+                        "benefits": "Monthly scholarship of **₹3000 for girls** and **₹2500 for boys** for professional courses.",
+                        "details": "Provides financial assistance to wards/widows of CAPFs, Assam Rifles, and State Police personnel who were martyred or disabled. Applicable for **professional degree courses only**.",
+                        "amount": "₹3000/month (girls), ₹2500/month (boys)",
+                        "eligibility": "Wards/widows of specified personnel. Secured a minimum of **60% marks in Class 12 / Diploma / Graduation**. Age limit generally 18-25 years.",
+                        "exclusions": "Students in distance/correspondence courses. Students studying abroad. Only two wards/widows per family.",
+                        "application": "Apply online through **National Scholarship Portal (NSP)**. Submit all required documents for verification.",
+                        "documents": "Identity Proof, Service Certificate of personnel, Proof of martyrdom/disability, Marksheet, Proof of admission, Bank Account details.",
+                        "youtube": "https://www.youtube.com/watch?v=DmbrOgtKZUs",
+                        "registration": "https://scholarships.gov.in/"
+                    },
+                    "Pradhan Mantri Vidyalaxmi Scheme": {
+                        "benefits": "Financial support up to **₹10 lakh** for higher education through education loans.",
+                        "details": "A scheme by the Ministry of Education. **Objective**: To ensure that no student misses out on higher education due to financial constraints. The portal is a single gateway for students to access education loans.",
+                        "amount": "Up to ₹10 lakh",
+                        "eligibility": "Meritorious students seeking admission to domestic institutions. Must not have defaulted on a previous loan.",
+                        "exclusions": "Applicants who have defaulted on a previous loan. Loans for non-professional courses may not be covered.",
+                        "application": "Register on the Vidyalakshmi portal. Fill out the Common Education Loan Application Form (CELAF) and apply to multiple banks.",
+                        "documents": "Admission letter from institution, Marksheets, Age proof, Identity proof, Address proof, Income proof of parents.",
+                        "youtube": "https://www.youtube.com/watch?v=1rN4sS_4yW0",
+                        "registration": "https://www.vidyalakshmi.co.in/EduLoan/"
+                    }
+                },
+                "Health": {
+                    "ABPMJAY": {
+                        "benefits": "**Cashless and paperless treatment** with an insurance cover of **₹5 lakh per family** per year.",
+                        "details": "Launched on **September 23, 2018**, by the National Health Authority (NHA). **Objective**: To provide free, quality healthcare to poor and vulnerable families and reduce out-of-pocket expenditure on medical treatment.",
+                        "amount": "₹5 lakh per family",
+                        "eligibility": "Families identified based on **Socio-Economic Caste Census (SECC) 2011** data.",
+                        "exclusions": "Individuals with other government health schemes, income tax payers, and higher-income families.",
+                        "application": "No formal enrollment fee. Eligibility is decided from SECC 2011. Beneficiaries can check eligibility via the official website or call center.",
+                        "documents": "Aadhaar Card / Ration Card, Family ID / SECC ID, Residence Proof.",
+                        "youtube": "https://www.youtube.com/watch?v=Tt5uJawMvcQ",
+                        "registration": "https://beneficiary.nha.gov.in/"
+                    },
+                    "Abha": {
+                        "benefits": "A unique **14-digit digital health ID** for secure, paperless storage of medical history.",
+                        "details": "Launched in **September 2021** as part of the Ayushman Bharat Digital Mission (ABDM). **Objective**: To create a unique digital health ID for every citizen of India and enable secure, paperless, and portable digital storage of health records.",
+                        "amount": "N/A",
+                        "eligibility": "Any resident Indian citizen with valid ID proof (Aadhaar, Driving License, etc.). Registration is voluntary.",
+                        "exclusions": "Foreign nationals without valid Indian ID proof. Citizens not willing to opt in (ABHA is voluntary).",
+                        "application": "Register on the official website: healthid.ndhm.gov.in or use the ABHA mobile app.",
+                        "documents": "Aadhaar Card or Driving License, Mobile Number, Email ID (optional).",
+                        "youtube": "https://www.youtube.com/watch?v=-XqT2gbVc94",
+                        "registration": "https://abha.abdm.gov.in/abha/v3/"
+                    },
+                    "Atal Pension Yojana": {
+                        "benefits": "Guaranteed pension of **₹1,000-5,000 per month** after age 60.",
+                        "details": "Launched in **May 2015** by the Ministry of Finance. **Objective**: To provide a universal social security system for workers in the **unorganized sector** and ensure a fixed pension after retirement.",
+                        "amount": "₹1,000-5,000 per month",
+                        "eligibility": "Citizens aged **18-40 years**. Must have a savings bank account and contribute for a minimum of 20 years.",
+                        "exclusions": "Individuals above 40 years of age. Income taxpayers (from October 2022).",
+                        "application": "Visit any bank branch or post office. Fill the registration form. Contributions are auto-debited from your savings account.",
+                        "documents": "Aadhaar Card, Bank Account Details, Mobile Number, Nominee Details.",
+                        "youtube": "https://youtu.be/FKIWVHHtxnA?si=jNfus8HX-Bub9HOt",
+                        "registration": "https://enps.nps-proteantech.in/eNPS/ApySubRegistration.html"
+                    },
+                    "Rashtriya Swasthya Bima Yojana (RSBY)": {
+                        "benefits": "Health insurance coverage up to **₹30,000 per family** per year for BPL families.",
+                        "details": "Launched in **2008** by the Ministry of Labour and Employment. **Objective**: To provide health insurance coverage to **Below Poverty Line (BPL) families** and unorganized sector workers and reduce the financial burden of medical treatment.",
+                        "amount": "Up to ₹30,000 per family",
+                        "eligibility": "Families belonging to the **BPL category**. Certain unorganized sector workers (e.g., street vendors, construction workers) are also eligible.",
+                        "exclusions": "Families not in the BPL list.",
+                        "application": "Enrollment camps are organized by the government. Smart cards are issued at these camps after verification.",
+                        "documents": "Identity Proof, BPL Card, Age Proof, Ration Card, Photographs.",
+                        "youtube": "https://youtu.be/fRQDVg_SvKw?si=eEVo_fP97r94mSdV",
+                        "registration": "http://www.rsby.gov.in/how_works.html"
+                    },
+                    "Pradhan Mantri Suraksha Bima Yojana": {
+                        "benefits": "**₹2 lakh** accidental death and disability cover.",
+                        "details": "A one-year accident insurance scheme offering coverage for death or disability on account of an accident. **Objective**: To provide very affordable insurance protection to all citizens.",
+                        "amount": "₹2 lakh",
+                        "eligibility": "Savings bank account holders aged **18 to 70 years**.",
+                        "exclusions": "Individuals who do not have a savings bank account or who are not in the specified age group.",
+                        "application": "Enrollment can be done at a bank branch or through a bank's online banking portal. The premium is auto-debited from the bank account.",
+                        "documents": "Aadhaar Card, Bank Account Details.",
+                        "youtube": "https://www.youtube.com/watch?v=R9o6sNq1F3s",
+                        "registration": "https://jansuraksha.gov.in/"
+                    }
+                },
+                "Construction": {
+                    "Maharashtra Real Estate Regulatory Authority": {
+                        "benefits": "Ensures **transparency and accountability** in real estate projects and protects homebuyers.",
+                        "details": "Established on **May 1, 2017**, under the RERA Act. **Objective**: To regulate and promote the real estate sector in Maharashtra. It establishes a fast grievance redressal mechanism for buyers and developers.",
+                        "amount": "N/A",
+                        "eligibility": "All developers, real estate agents operating in Maharashtra. Homebuyers can file complaints.",
+                        "exclusions": "Projects with a land area of less than 500 sq. meters or less than 8 apartments.",
+                        "application": "Developers and agents must register their projects/practice on the MahaRERA portal. Homebuyers can file complaints online.",
+                        "documents": "PAN card of the promoter, Legal title deed, Project plan details, Approvals.",
+                        "youtube": "https://youtu.be/ebQe3UXH4zk?si=gLNZm2XOcsSvL40T",
+                        "registration": "https://maharerait.mahaonline.gov.in"
+                    },
+                    "Swachh Bharat Mission – Gramin (SBM-G)": {
+                        "benefits": "**Financial assistance** for the construction of individual household toilets.",
+                        "details": "Launched on **October 2, 2014**. **Objective**: To eliminate open defecation in rural India and ensure access to safe sanitation facilities. Improves health outcomes and dignity for women and girls.",
+                        "amount": "Varies",
+                        "eligibility": "Rural households without a toilet. Priority is given to **BPL families, SC/ST, and female-headed households**.",
+                        "exclusions": "Households with already functional toilets are not eligible for the subsidy.",
+                        "application": "Apply at the Gram Panchayat or Block office. Submit the application form with required documents.",
+                        "documents": "Identity Proof, Address Proof, BPL Card, Caste Certificate (if applicable), Bank Account details.",
+                        "youtube": "https://youtu.be/xfqG-LKXD1k?si=Dc9a3xdBExWpI_mf",
+                        "registration": "https://www.sarkaridna.com/?s=sauchalay"
+                    },
+                    "Pradhan Mantri Awas Yojana – Gramin": {
+                        "benefits": "Financial assistance of **₹1.20 lakh** per house in plain areas.",
+                        "details": "Launched in **April 2016**. **Objective**: To provide 'Housing for All' in rural areas by 2024. Aims to provide pucca houses with basic amenities. Ownership is preferably in the name of a female member.",
+                        "amount": "₹1.20 lakh to ₹1.30 lakh",
+                        "eligibility": "Rural households who are homeless or living in kutcha/dilapidated houses. Priority is based on **SECC 2011 data**.",
+                        "exclusions": "Households with a pucca house are not eligible.",
+                        "application": "Applications are selected based on SECC 2011 data and Gram Sabha verification.",
+                        "documents": "Identity Proof, Address Proof, SECC 2011 data inclusion proof, Bank Account details, MGNREGA job card (if available).",
+                        "youtube": "https://youtu.be/NJ8aHwR3aYE?si=gWqt708vajiYNnVc",
+                        "registration": "https://pmaymis.gov.in/"
+                    },
+                    "MGNREGA": {
+                        "benefits": "Legal guarantee of **100 days of wage employment** to rural households.",
+                        "details": "Enacted in **September 2005**. **Objective**: To provide a legal guarantee of 100 days of wage employment in a financial year to every rural household whose adult members volunteer for unskilled manual work. Also aims to create durable rural assets.",
+                        "amount": "100 days of wages",
+                        "eligibility": "A citizen of India, aged **18 or above**, belonging to a rural household and willing to do unskilled manual work.",
+                        "exclusions": "Only for rural areas. Not applicable to urban households.",
+                        "application": "Apply for a Job Card at the Gram Panchayat office. Submit the application form with required documents.",
+                        "documents": "Identity Proof, Age Proof, Residence Proof, Photograph, Bank Account details, Job Card application form.",
+                        "youtube": "https://youtu.be/vet_w8oPQ44?si=mUGF0KK8OAI1of19",
+                        "registration": "https://nrega.nic.in/"
+                    },
+                    "Rural Infrastructure Development Fund (RIDF)": {
+                        "benefits": "Provides **low-cost loans** to State Governments for creating rural infrastructure.",
+                        "details": "Launched in **1995-96** through NABARD. **Objective**: To provide low-cost loans to State Governments and State-owned corporations for creating rural infrastructure. Aims to speed up completion of rural infrastructure projects.",
+                        "amount": "N/A",
+                        "eligibility": "State Governments / Union Territories and their agencies (primary borrowers).",
+                        "exclusions": "Panchayati Raj Institutions (PRIs) and NGOs are generally not direct borrowers.",
+                        "application": "State Governments submit a Detailed Project Report (DPR) to NABARD for approval.",
+                        "documents": "Detailed Project Report (DPR) with technical and financial estimates, Approval/Sanction from the State Government, Land ownership and clearance certificates.",
+                        "youtube": "https://youtu.be/sTT0_DYOP8s?si=i6qN67d0lEkVnBgT",
+                        "registration": "https://ridf.nabard.org/"
+                    }
+                },
+                "Women Empowerment": {
+                    "Pradhan Mantri Ujjwala Yojana": {
+                        "benefits": "**Free LPG connection** with initial financial support of **₹1600**.",
+                        "details": "Launched on **May 1, 2016**. **Objective**: To provide clean cooking fuel (LPG) to poor households, especially rural women, to protect their health by reducing smoke.",
+                        "amount": "Free connection + ₹1600",
+                        "eligibility": "Woman applicant must be **above 18 years of age**. Must belong to a **BPL household** and not already have an LPG connection.",
+                        "exclusions": "Households already having an LPG connection. Applicants not in the BPL category.",
+                        "application": "Collect application form from an LPG distributor or download from the official PMUY website.",
+                        "documents": "Aadhaar Card, Proof of Residence, BPL Card, Caste Certificate (if applicable), Bank Account details.",
+                        "youtube": "https://www.youtube.com/watch?v=iSFdzzBwnJE",
+                        "registration": "https://pmuy.gov.in/e-kyc.html"
+                    },
+                    "Pradhan Mantri Matru Vandana Yojana": {
+                        "benefits": "Cash incentive of **₹5,000** provided in three installments for maternity benefits.",
+                        "details": "Launched in **2017**. **Objective**: To provide maternity benefits to pregnant women and lactating mothers and compensate for wage loss during pregnancy.",
+                        "amount": "₹5,000",
+                        "eligibility": "Women aged **19 years or above** for the first living child (under PMMVY 2.0, benefit extends to the second child if it's a girl).",
+                        "exclusions": "Women in regular employment with Central/State Government or PSUs. Women receiving similar benefits under other schemes.",
+                        "application": "Register at the nearest Anganwadi Centre (AWC) or approved health facility. Fill out the application forms and submit with documents.",
+                        "documents": "Identity Proof, Age Proof, Pregnancy Proof (MCP Card), Bank Account details, Photograph.",
+                        "youtube": "https://www.youtube.com/watch?v=YAXqACXk4po",
+                        "registration": "https://pmmvy.wcd.gov.in/Home/TrainingVideo#featured-services"
+                    },
+                    "RMEWF - Financial Assistance": {
+                        "benefits": "**One-time grant of ₹20,000** for vocational training of widows of Ex-Servicemen.",
+                        "details": "Implemented by Raksha Mantri Ex-Servicemen Welfare Fund (RMEWF). **Objective**: To provide financial assistance for skill development and vocational training of widows of Ex-Servicemen and promote self-reliance.",
+                        "amount": "₹20,000 one-time",
+                        "eligibility": "Applicant must be a **widow of an Ex-Serviceman** and enrolled in a recognized vocational training course.",
+                        "exclusions": "Widows already employed in regular service. Applicants receiving assistance for the same course from another government scheme.",
+                        "application": "Application form available at Zila Sainik Board (ZSB) / Rajya Sainik Board (RSB). Submit the form with required documents.",
+                        "documents": "Identity Proof, Service Documents of Ex-Serviceman, Death Certificate, Proof of Admission to training institute.",
+                        "youtube": "http://www.youtube.com/watch?v=AdfR5CwHsMs",
+                        "registration": "https://desw.gov.in/[field_url]"
+                    },
+                    "Women Scientist Scheme-C": {
+                        "benefits": "Monthly stipend of **₹20,000-₹25,000** for women who had a career break.",
+                        "details": "Launched in **2002** by the Department of Science & Technology (DST). **Objective**: To provide opportunities to women scientists and technologists who had a career break and to train them in intellectual property rights (IPR) and patents.",
+                        "amount": "₹20,000 - ₹25,000/month",
+                        "eligibility": "Indian women citizens with a post-graduate or PhD degree in Science/Engineering. Age limit: **27-45 years**. Preference given to women with a career break.",
+                        "exclusions": "Male candidates. Women already employed in permanent positions in government/PSUs/academic institutions.",
+                        "application": "Apply online through the DST portal when applications are announced. Shortlisted candidates undergo a written test and interview.",
+                        "documents": "Identity Proof, Educational Certificates, Proof of Age, Proof of Career Break (if applicable), Caste/Category Certificate.",
+                        "youtube": "https://youtu.be/d6jA1hxPYe0?si=YvDoc6tgC2tsNZIh",
+                        "registration": "https://www.biotecnika.org/2023/01/wise-post-doctoral-fellowship-wise-pdf-call-for-proposals-open/"
+                    },
+                    "Savitribai Jyotirao Phule Fellowship": {
+                        "benefits": "Monthly stipend of **₹31,000-₹35,000** for a single girl child pursuing a Ph.D.",
+                        "details": "Launched in **2023** by the University Grants Commission (UGC). **Objective**: To promote higher education and research for a **single girl child** in India and encourage parents to educate daughters at the doctoral level.",
+                        "amount": "₹31,000 - ₹35,000/month",
+                        "eligibility": "Applicant must be a **single girl child** (no siblings). Must be enrolled in a regular, full-time Ph.D. program. Age limit: **40 years** (General).",
+                        "exclusions": "Candidates already receiving another fellowship/scholarship. Part-time/distance education Ph.D. candidates.",
+                        "application": "Apply online through the UGC portal (scholarships.gov.in). Selection is based on UGC NET-JRF/Ph.D. admission and eligibility criteria.",
+                        "documents": "Aadhaar / Identity proof, Ph.D. admission proof, Certificate from parents declaring candidate as single girl child, Age proof, Bank account details.",
+                        "youtube": "https://www.youtube.com/watch?v=EGopb94-YrY",
+                        "registration": "https://hmas.mahait.org/"
+                    }
+                },
+                "Sports": {
+                    "Pandit Deendayal Upadhyay National Welfare Fund For Sportspersons": {
+                        "benefits": "Lump sum up to **₹10 lakh**, monthly pension of **₹5,000**, injury aid, and medical aid.",
+                        "details": "Launched by the Ministry of Youth Affairs & Sports. **Objective**: To aid meritorious sportspersons in indigent circumstances. It also covers families of deceased sportspersons.",
+                        "amount": "Up to ₹10 lakh",
+                        "eligibility": "Retired national/international achievers, coaches, referees, and support staff.",
+                        "exclusions": "N/A",
+                        "application": "Apply offline/online with mandatory PDF documents (max 5MB).",
+                        "documents": "Applicant's photo and signature, Proof of Age, Proof of achievements/participation, Bank details, Annual income proof, Declaration signed by the applicant and two witnesses, Mobile number and email ID.",
+                        "youtube": "https://youtu.be/mqoeOMu0Oec?si=yjCcBRcnO51KO1RF",
+                        "registration": "https://yas.nic.in/sports/national-welfare-fund-sportspersons"
+                    },
+                    "Tenzing Norgay National Adventure Award": {
+                        "benefits": "**₹15 lakh**, a bronze statuette, a certificate, and a blazer/saree.",
+                        "details": "A national award for outstanding achievements in Land, Water, Air Adventure and Lifetime Achievement. **Objective**: To honor and recognize individuals who have made a significant contribution to adventure sports.",
+                        "amount": "₹15 lakh",
+                        "eligibility": "Exceptional performance in the past 3 years; full career for Lifetime Achievement.",
+                        "exclusions": "N/A",
+                        "application": "Apply online via awards.gov.in. Nominations can be made by State departments or recognized adventure organizations.",
+                        "documents": "Passport-size photograph, Proof of identity, Proof of address, Proof of age, Educational qualification proof, Detailed achievement description, High-resolution action photographs.",
+                        "youtube": "https://youtu.be/lFPp4YD7y6Q?si=52ABPX2U8JdDm9qU",
+                        "registration": "https://awards.gov.in/"
+                    },
+                    "Award Of Scholarships To Young Artists In Different Cultural Fields": {
+                        "benefits": "**₹5,000 per month** for 2 years.",
+                        "details": "Organized by the Ministry of Culture. **Objective**: To support advanced training in Indian Classical Music/Dance, Theatre, Visual Arts, Folk/Traditional Arts, and Light Classical Music. **Coverage**: 400 scholarships per year.",
+                        "amount": "₹5,000 per month",
+                        "eligibility": "Indian citizens aged **18-25 years** with a minimum of 5 years of training and proven proficiency.",
+                        "exclusions": "N/A",
+                        "application": "Apply online via the CSMS portal. The selection process includes scrutiny followed by an interview/performance before an Expert Committee.",
+                        "documents": "Recent passport-size photograph, Proof of date of birth, Proof of address, Proof of Indian citizenship, Educational qualification certificate, Training proof, Achievement proof, Portfolio materials, Bank account details.",
+                        "youtube": "https://youtu.be/DJO-G3Kvo58?si=JJxvYQsnRx3C7EUZ",
+                        "registration": "https://www.indiaculture.gov.in/search/node/Award%20Of%20Scholarships%20To%20Young%20Artists%20In%20Different%20Cultural%20Fields"
+                    },
+                    "Free Education For Sports Medal Winners": {
+                        "benefits": "Covers **tuition fees, hostel fees, sports kit allowance**, and a stipend.",
+                        "details": "Organized by the University Grants Commission (UGC). **Objective**: To provide free higher education to medal winners at the national level and participants at the international level.",
+                        "amount": "N/A (covers fees and allowances)",
+                        "eligibility": "Must be a medalist at the national level or a participant at the international level, admitted to a UGC-recognized institution.",
+                        "exclusions": "Benefits can be terminated due to misconduct or poor academic/sports performance.",
+                        "application": "Submit application via your institution with proof of sports achievement. The institution forwards the application to UGC.",
+                        "documents": "Passport-size photograph, Proof of date of birth, Proof of address, Proof of Indian citizenship, Sports achievement certificate, Admission/Enrollment proof, Previous academic mark sheets, Bank account details, No objection/forwarding letter from the institution.",
+                        "youtube": "https://youtu.be/cM1EoESb_RE?si=Aj8T475NcGxP735e",
+                        "registration": "http://rajshaladarpan.nic.in/sd3/SportsNew/School/Sports_FilledApplication.aspx"
+                    },
+                    "Scheme For Financial Assistance For Veteran Artists": {
+                        "benefits": "Monthly pension of **₹6,000**.",
+                        "details": "Organized by the Ministry of Culture. **Objective**: To provide a pension to senior artists, scholars, and writers in financial need. Funding is a joint effort by the Central and State Governments.",
+                        "amount": "₹6,000 per month",
+                        "eligibility": "Age **60+ years** with personal income below **₹4,000 per month** and a significant contribution to art, culture, or literature.",
+                        "exclusions": "N/A",
+                        "application": "Submit application with supporting documents. Reviewed by an Expert Committee. Pension is disbursed via DBT.",
+                        "documents": "Proof of Address, Proof of Date of Birth, Income Certificate, Proof of Contribution (certificates, awards, publications), Bank Details, Passport-size photo.",
+                        "youtube": "https://youtu.be/2k8OztSBF-w?si=LUIYoBPjOpsTDWgN",
+                        "registration": "https://www.indsarkarinaukri.in/2015/..."
+                    },
+                    "Senior/Junior Fellowships for Outstanding Persons": {
+                        "benefits": "**₹20,000/month for Senior** and **₹10,000/month for Junior** Fellowships for 2 years.",
+                        "details": "Aims to encourage excellence in art, culture, and literature through research and creative projects. **Coverage**: Open to performing arts, literary arts, plastic arts, and cultural research.",
+                        "amount": "₹20,000/mo (Senior), ₹10,000/mo (Junior)",
+                        "eligibility": "Senior: age **40+**; Junior: age **25-40**. Both must submit mandatory 6-month progress reports.",
+                        "exclusions": "Not applicable for training, workshops, fiction, or autobiographies.",
+                        "application": "Apply online via the Ministry of Culture or CCRT. Selection is done by expert panels; juniors undergo interviews.",
+                        "documents": "Proof of Identity, Proof of Address, Proof of Date of Birth, Educational Qualification Certificates, Proof of Experience/Work, Detailed Project Proposal, Passport-size Photograph, Bank Details.",
+                        "youtube": "https://youtu.be/Jln8Lj_G7Mc?si=NKNETNjqsUzFDehb",
+                        "registration": "https://ccrtindia.gov.in/"
+                    }
+                }
+            },
+            "mr": {
+                "Farming": {
+                    "PM Kisan": {
+                        "benefits": "प्रत्येक शेतकरी कुटुंबाला दरवर्षी **₹6,000**, जे तीन समान हप्त्यांमध्ये दिले जातात.",
+                        "details": "कृषी आणि शेतकरी कल्याण मंत्रालयाने **फेब्रुवारी 2019** मध्ये ही योजना सुरू केली. **उद्देश**: शेतकरी कुटुंबांना त्यांच्या कृषी आणि घरगुती गरजा पूर्ण करण्यासाठी थेट **उत्पन्न मदत** देणे. आर्थिक ताण कमी करणे आणि शेतकऱ्यांसाठी उपजीविकेची सुरक्षा सुनिश्चित करणे.",
+                        "amount": "दरवर्षी ₹6,000",
+                        "eligibility": "लागवडीखालील जमीन असलेल्या सर्व शेतकरी कुटुंबांना. शेतकऱ्यांचे **आधार-जोडलेले बँक खाते** असणे आवश्यक आहे. यात लहान, सीमांत आणि मध्यम शेतकरी समाविष्ट आहेत.",
+                        "exclusions": "संस्थात्मक जमीनधारक. आयकर भरणारे शेतकरी किंवा त्यांचे कुटुंबीय, सेवारत/सेवानिवृत्त सरकारी कर्मचारी, डॉक्टर, अभियंता, वकील, सीए यांसारखे व्यावसायिक, माजी/सध्याचे खासदार, आमदार, मंत्री.",
+                        "application": "पीएम-किसान अधिकृत पोर्टल (pmkisan.gov.in), सामान्य सेवा केंद्रे (CSCs) किंवा स्थानिक महसूल/कृषी कार्यालये.",
+                        "documents": "आधार कार्ड, बँक खाते तपशील, जमिनीच्या मालकीची कागदपत्रे, निवासस्थानाचा पुरावा, मोबाइल नंबर.",
+                        "youtube": "https://www.youtube.com/watch?v=Uq9ktF-QycY",
+                        "registration": "https://pmkisan.gov.in/homenew.aspx"
+                    },
+                    "PM Mudra Yojana": {
+                        "benefits": "**₹10 लाखांपर्यंतचे तारण-मुक्त कर्ज**.",
+                        "details": "वित्त मंत्रालयाने **8 एप्रिल 2015** रोजी ही योजना सुरू केली. **उद्देश**: सूक्ष्म आणि लघु उद्योगांना आर्थिक मदत देणे. स्वयंरोजगार, उद्योजकता आणि रोजगार निर्मितीला प्रोत्साहन देणे.",
+                        "amount": "₹10 लाखांपर्यंत",
+                        "eligibility": "18-65 वयोगटातील भारतीय नागरिक. व्यक्ती, भागीदारी संस्था आणि लहान व्यवसाय. उत्पन्नाची निर्मिती करणाऱ्या उपक्रमासाठी व्यवसाय योजना असणे आवश्यक आहे.",
+                        "exclusions": "शेतीत गुंतलेले शेतकरी. मोठे कॉर्पोरेट व्यवसाय. थकबाकी असलेले कर्जदार किंवा खराब क्रेडिट इतिहास असलेले अर्जदार.",
+                        "application": "मुद्रासोबत भागीदारी असलेल्या कोणत्याही व्यावसायिक बँक, प्रादेशिक ग्रामीण बँक (RRB), लहान वित्त बँक, किंवा NBFC/MFI मध्ये अर्ज करा.",
+                        "documents": "ओळखपत्र, पत्त्याचा पुरावा, व्यवसायाचा पुरावा, व्यवसाय योजना/प्रकल्प अहवाल, बँक खाते तपशील, फोटो.",
+                        "youtube": "https://www.youtube.com/watch?v=SZyQ8dgx86g",
+                        "registration": "https://www.jansamarth.in/home"
+                    },
+                    "Pradhan Mantri Fasal Bima Yojana (PMFBY)": {
+                        "benefits": "नैसर्गिक आपत्तींमुळे **पिकांचे नुकसान झाल्यास** आर्थिक मदत.",
+                        "details": "कृषी आणि शेतकरी कल्याण मंत्रालयाने **2016** मध्ये ही योजना सुरू केली. **उद्देश**: नैसर्गिक आपत्ती, कीटक किंवा रोगांमुळे पिकांचे नुकसान झाल्यास शेतकऱ्यांना आर्थिक मदत देणे. शेतकऱ्यांचे उत्पन्न आणि उपजीविका सुरक्षित करणे.",
+                        "amount": "पिकाच्या नुकसानीवर आधारित",
+                        "eligibility": "अधिसूचित क्षेत्रातील अधिसूचित पिके घेणारे सर्व शेतकरी. कर्जदार आणि बिगर-कर्जदार दोन्ही शेतकरी पात्र आहेत.",
+                        "exclusions": "युद्ध, अणु धोके, जाणूनबुजून केलेले नुकसान, दुर्लक्ष, किंवा अवैध क्रियाकलापांमुळे झालेले पिकांचे नुकसान समाविष्ट नाही.",
+                        "application": "बँका, सामान्य सेवा केंद्रे (CSCs) किंवा PMFBY पोर्टलद्वारे अर्ज करा.",
+                        "documents": "ओळखपत्र, जमिनीची कागदपत्रे (7/12 उतारा), पीक पेरणी प्रमाणपत्र (आवश्यक असल्यास), बँक खाते तपशील, फोटो.",
+                        "youtube": "https://www.youtube.com/watch?v=r0nq1Xd2Wts",
+                        "registration": "https://pmfby.gov.in/"
+                    },
+                    "Soil Health Card Scheme": {
+                        "benefits": "खतांचा योग्य वापर वाढवण्यासाठी दर 2 वर्षांनी **माती आरोग्य कार्ड** दिले जाते.",
+                        "details": "कृषी आणि शेतकरी कल्याण मंत्रालयाने **2015** मध्ये ही योजना सुरू केली. **उद्देश**: देशभरातील सर्व शेतकऱ्यांना माती आरोग्य कार्ड प्रदान करून खतांचा संतुलित वापर वाढवणे आणि मातीची सुपीकता सुधारणे.",
+                        "amount": "लागू नाही",
+                        "eligibility": "जमीन असलेल्या किंवा लागवड करणाऱ्या सर्व शेतकऱ्यांना.",
+                        "exclusions": "जमीन नसलेले किंवा लागवड न करणारे शेतकरी पात्र नाहीत.",
+                        "application": "कृषी विभागाचे अधिकारी मातीचे नमुने गोळा करतात. माती तपासणी प्रयोगशाळांमध्ये (STLs) तपासणी केली जाते.",
+                        "documents": "ओळखपत्र, जमिनीची मालकीची कागदपत्रे, शेतकऱ्याचा फोटो.",
+                        "youtube": "https://youtu.be/SFKz_aEFfZw?si=4Jc4JEOphcDdj90n",
+                        "registration": "http://soil.health4.dac.gov.in/"
+                    },
+                    "Kisan Credit Card": {
+                        "benefits": "शेतीसाठी वेळेवर आणि पुरेसे कर्ज **4% च्या प्रभावी व्याज दराने**.",
+                        "details": "आर.व्ही. गुप्ता समितीच्या शिफारशींवर आधारित **1998** मध्ये सुरू झाली. **उद्देश**: शेतकऱ्यांना शेती आणि संबंधित कामांसाठी वेळेवर आणि पुरेसे कर्ज उपलब्ध करून देणे.",
+                        "amount": "लवचिक कर्ज मर्यादा",
+                        "eligibility": "सर्व शेतकरी (मालक, भाडेकरू, वाटाईदार), संयुक्त दायित्व गट (JLGs) आणि स्वयं-सहायता गट (SHGs).",
+                        "exclusions": "शेतीत गुंतलेले नसलेले, मागील कृषी कर्जाची थकबाकी असलेले शेतकरी पात्र नाहीत.",
+                        "application": "कोणत्याही व्यावसायिक बँक, सहकारी बँक, किंवा प्रादेशिक ग्रामीण बँक (RRB) मध्ये अर्ज करा. पीएम-किसान पोर्टलद्वारे ऑनलाइन अर्ज देखील उपलब्ध आहे.",
+                        "documents": "ओळखपत्र, निवासस्थानाचा पुरावा, जमिनीची मालकीची कागदपत्रे, फोटो, बँक खाते तपशील.",
+                        "youtube": "https://www.youtube.com/watch?v=lWj05R9NYMw",
+                        "registration": "https://jaankari.csccloud.in/kcc.html"
+                    },
+                    "PM-KUSUM": {
+                        "benefits": "सौर सिंचन पंपांसाठी **60% अनुदान**.",
+                        "details": "नवीन आणि नवीकरणीय ऊर्जा मंत्रालयाने **मार्च 2019** मध्ये सुरू केली. **उद्देश**: शेतकऱ्यांना सौर सिंचन पंप स्थापित करण्यासाठी अनुदान देणे. यामुळे शाश्वत शेती आणि ऊर्जा सुरक्षा साधण्यास मदत होते.",
+                        "amount": "60% अनुदान",
+                        "eligibility": "कृषी जमीन असलेले शेतकरी. या योजनेत सौर पंपांच्या विविध क्षमतेसाठी तीन घटक आहेत.",
+                        "exclusions": "निर्दिष्ट घटक न वापरलेले किंवा तांत्रिक मानकांचे पालन न केलेले प्रकल्प.",
+                        "application": "आपल्या राज्याच्या नोडल एजन्सी किंवा नियुक्त ऑनलाइन पोर्टलशी संपर्क साधा.",
+                        "documents": "आधार कार्ड, जमिनीच्या मालकीची कागदपत्रे, बँक खाते तपशील, मोबाइल नंबर, फोटो.",
+                        "youtube": "https://www.youtube.com/watch?v=A2dY2C8Rz7s",
+                        "registration": "https://mnre.gov.in/pm-kusum"
+                    }
+                },
+                "Business": {
+                    "Startup India": {
+                        "benefits": "पहिल्या 10 वर्षांमध्ये **3 वर्षांसाठी करमाफी**. कमी शुल्कात जलद पेटंट नोंदणी.",
+                        "details": "वाणिज्य आणि उद्योग मंत्रालयाच्या DPIIT ने **16 जानेवारी 2016** रोजी सुरू केली. **उद्देश**: उद्योजकतेला प्रोत्साहन देण्यासाठी आणि स्टार्टअप्ससाठी एक मजबूत परिसंस्था तयार करणे.",
+                        "amount": "कर लाभ, निधी",
+                        "eligibility": "खाजगी मर्यादित कंपनी किंवा LLP असावी. **10 वर्षांपर्यंत जुनी** असावी आणि वार्षिक उलाढाल **₹100 कोटींपेक्षा जास्त** नसावी.",
+                        "exclusions": "विद्यमान व्यवसायाचे विभाजन करून किंवा पुनर्रचना करून तयार केलेली संस्था पात्र नाही.",
+                        "application": "DPIIT पोर्टलद्वारे मान्यतेसाठी अर्ज करा. समावेश प्रमाणपत्र आणि व्यवसाय योजनेचा तपशील सादर करा.",
+                        "documents": "समावेश प्रमाणपत्र, स्टार्टअपचा पॅन कार्ड, व्यवसाय योजना, संचालक/भागीदारांचे पॅन आणि आधार.",
+                        "youtube": "https://youtu.be/7hi31GVUVlE?si=2JSRbhe_pfr00p_b",
+                        "registration": "https://www.startupindia.gov.in/content/sih/en/login.html"
+                    },
+                    "MUDRA Yojana (PMMY)": {
+                        "benefits": "₹10 लाखांपर्यंतचे **तारण-मुक्त कर्ज**.",
+                        "details": "वित्त मंत्रालयाने **8 एप्रिल 2015** रोजी सुरू केली. **उद्देश**: सूक्ष्म आणि लघु उद्योगांना आर्थिक मदत देणे. **कर्जाचे प्रकार**: शिशु (₹50,000 पर्यंत), किशोर (₹50,001 ते ₹5 लाख), तरुण (₹5 लाख ते ₹10 लाख).",
+                        "amount": "₹10 लाखांपर्यंत",
+                        "eligibility": "18-65 वयोगटातील भारतीय नागरिक. व्यक्ती, भागीदारी संस्था आणि लहान व्यवसाय. व्यवसाय योजना असणे आवश्यक आहे.",
+                        "exclusions": "शेतीत गुंतलेले शेतकरी. मोठे कॉर्पोरेट व्यवसाय. थकबाकी असलेले अर्जदार.",
+                        "application": "मुद्रासोबत भागीदारी असलेल्या कोणत्याही बँक किंवा वित्तीय संस्थांमध्ये अर्ज करा.",
+                        "documents": "ओळखपत्र, पत्त्याचा पुरावा, व्यवसायाचा पुरावा, व्यवसाय योजना/प्रकल्प अहवाल, बँक खाते तपशील, फोटो.",
+                        "youtube": "https://youtu.be/cn3RuR11jS4?si=H-fVduywoqBYM_vX",
+                        "registration": "https://www.jansamarth.in"
+                    },
+                    "PMEGP": {
+                        "benefits": "नवीन उद्योग सुरू करण्यासाठी **35% पर्यंत** आर्थिक मदत (सबसिडी). उत्पादन युनिट्ससाठी कर्जाची मर्यादा **₹25 लाख** आणि सेवा युनिट्ससाठी **₹10 लाख**.",
+                        "details": "सूक्ष्म, लघु आणि मध्यम उद्योग मंत्रालयाने (MSME) **2008** मध्ये सुरू केली. **उद्देश**: ग्रामीण आणि शहरी भागात शाश्वत रोजगार संधी निर्माण करणे.",
+                        "amount": "₹25 लाखांपर्यंत (उत्पादन)",
+                        "eligibility": "18 वर्षांवरील व्यक्ती. मोठ्या प्रकल्पांसाठी किमान 8 वी पास असणे आवश्यक आहे. केवळ **नवीन प्रकल्प** पात्र आहेत.",
+                        "exclusions": "विद्यमान युनिट्स पात्र नाहीत. नकारात्मक यादीतील प्रकल्प (उदा. दारू, 20 मायक्रॉनपेक्षा कमी प्लास्टिक).",
+                        "application": "PMEGP पोर्टलवर किंवा KVIC, KVIBs आणि DICs कार्यालयात ऑनलाइन अर्ज करा. अर्जासोबत प्रकल्प अहवाल सादर करा.",
+                        "documents": "ओळखपत्र, पत्त्याचा पुरावा, शैक्षणिक पात्रतेचे प्रमाणपत्र, प्रकल्प अहवाल, जात/समुदाय प्रमाणपत्र.",
+                        "youtube": "https://youtu.be/P4BZDosFsQw?si=FGdDcujbL2FVe6uX",
+                        "registration": "https://www.kviconline.gov.in/pmegp-portal"
+                    },
+                    "Stand-Up India Scheme": {
+                        "benefits": "ग्रीनफील्ड प्रकल्पांसाठी **₹10 लाख ते ₹1 कोटी** पर्यंत बँक कर्ज.",
+                        "details": "**5 एप्रिल 2016** रोजी सुरू झाली. **उद्देश**: **महिला आणि अनुसूचित जाती/जमाती उद्योजकांना** नवीन उद्योग सुरू करण्यासाठी बँक कर्जाची सोय करून उद्योजकतेला प्रोत्साहन देणे.",
+                        "amount": "₹10 लाख ते ₹1 कोटी",
+                        "eligibility": "अनुसूचित जाती/जमाती आणि/किंवा महिला उद्योजक. अर्जदाराचे वय किमान **18 वर्षे** असावे.",
+                        "exclusions": "कोणत्याही बँक/वित्तीय संस्थेचे थकबाकीदार असलेले अर्जदार.",
+                        "application": "कोणत्याही अनुसूचित व्यावसायिक बँकेत किंवा स्टँड-अप मित्र पोर्टलद्वारे ऑनलाइन अर्ज करा.",
+                        "documents": "निवासस्थानाचा पुरावा, व्यवसायाच्या पत्त्याचा पुरावा, कंपनीची कागदपत्रे, आयटीआर, भाडे करार (लागू असल्यास).",
+                        "youtube": "https://www.youtube.com/watch?v=XWvN0qP9qC0",
+                        "registration": "https://www.standupmitra.in/"
+                    },
+                    "National Rural Livelihood Mission (NRLM)": {
+                        "benefits": "**स्वयं-सहायता गटांसाठी (SHGs)** कर्जावर व्याज सवलत. कौशल्य विकास आणि प्रशिक्षण.",
+                        "details": "ग्रामीण विकास मंत्रालयाने **जून 2011** मध्ये सुरू केली. **उद्देश**: ग्रामीण गरीब कुटुंबांसाठी शाश्वत उपजीविकेच्या संधींना प्रोत्साहन देऊन दारिद्र्य कमी करणे. त्यांना **स्वयं-सहायता गटांमध्ये (SHGs)** संघटित केले जाते.",
+                        "amount": "विविध",
+                        "eligibility": "SECC 2011 मध्ये गरीब म्हणून ओळखली गेलेली ग्रामीण कुटुंबे. महिला-प्रमुख कुटुंबे, अनुसूचित जाती/जमाती आणि भूमिहीन कुटुंबांना प्राधान्य.",
+                        "exclusions": "फक्त ग्रामीण भागासाठी लागू.",
+                        "application": "आपल्या गावात स्वयं-सहायता गटात सामील व्हा. SHG द्वारे मदतीसाठी अर्ज करा.",
+                        "documents": "ओळखपत्र, पत्त्याचा पुरावा, जात प्रमाणपत्र, SHG चे बँक खाते तपशील, फोटो.",
+                        "youtube": "https://youtu.be/AZ4TWtVLTbI?si=hA4FdgU9UCZM2Kvu",
+                        "registration": "https://nrlm.gov.in/"
+                    }
+                },
+                "Education": {
+                    "Pradhan Mantri Uchchatar Shiksha Protsahan (PM-USP)": {
+                        "benefits": "कमी उत्पन्न असलेल्या कुटुंबातील विद्यार्थ्यांना **UG साठी दरवर्षी ₹12,000** आणि **PG साठी ₹20,000**.",
+                        "details": "शिक्षण मंत्रालयाच्या उच्च शिक्षण विभागाने सुरू केली. **उद्देश**: गुणवंत विद्यार्थ्यांना उच्च शिक्षणासाठी आर्थिक मदत देणे. **कव्हरेज**: दरवर्षी 82,000 नवीन शिष्यवृत्त्या दिल्या जातात.",
+                        "amount": "दरवर्षी ₹20,000 पर्यंत",
+                        "eligibility": "**12वी मध्ये 80% पेक्षा जास्त** गुण असणे आवश्यक. कुटुंबाचे उत्पन्न **₹4.5 लाखांपेक्षा कमी** असावे. नियमित अभ्यासक्रमात प्रवेश घेतलेला असावा.",
+                        "exclusions": "दूरस्थ/पत्रव्यवहार/डिप्लोमा अभ्यासक्रमातील विद्यार्थी. इतर शिष्यवृत्ती घेणारे विद्यार्थी.",
+                        "application": "**राष्ट्रीय शिष्यवृत्ती पोर्टल (NSP)** द्वारे आधार ई-केवायसी आणि दस्तऐवज अपलोड करून अर्ज करा.",
+                        "documents": "12वीची गुणपत्रिका, उत्पन्नाचे प्रमाणपत्र, जात प्रमाणपत्र (लागू असल्यास), अपंगत्वाचे प्रमाणपत्र (लागू असल्यास), बोनाफाईड प्रमाणपत्र, आधार कार्ड, बँक खाते तपशील.",
+                        "youtube": "https://www.youtube.com/watch?v=AqB2dMZqvMQ",
+                        "registration": "https://scholarships.gov.in"
+                    },
+                    "Right to Education": {
+                        "benefits": "**6-14 वयोगटातील** मुलांना **मोफत आणि सक्तीचे शिक्षण**.",
+                        "details": "**1 एप्रिल 2010** रोजी लागू झाली. **उद्देश**: सर्व मुलांना मोफत आणि सक्तीचे शिक्षण देणे. शिक्षणामध्ये असमानता दूर करणे आणि बालमजुरी, भेदभाव टाळणे.",
+                        "amount": "मोफत शिक्षण",
+                        "eligibility": "6-14 वयोगटातील मुले. आर्थिकदृष्ट्या दुर्बळ घटक (EWS) आणि सामाजिकदृष्ट्या वंचित गटातील मुले खाजगी शाळांमध्ये **25% आरक्षणासाठी** पात्र आहेत.",
+                        "exclusions": "6 वर्षांखालील किंवा 14 वर्षांवरील मुले. उच्च शिक्षण (माध्यमिक आणि महाविद्यालयीन स्तर) समाविष्ट नाही.",
+                        "application": "पालक राज्य सरकारच्या RTE प्रवेश पोर्टलद्वारे किंवा शिक्षण कार्यालयात ऑनलाइन/ऑफलाइन अर्ज करू शकतात.",
+                        "documents": "जन्म प्रमाणपत्र, उत्पन्नाचे प्रमाणपत्र (EWS साठी), जात प्रमाणपत्र, निवासस्थानाचा पुरावा, फोटो, आधार कार्ड.",
+                        "youtube": "https://www.youtube.com/watch?v=36nPUZdlsjU",
+                        "registration": "https://student.maharashtra.gov.in/adm/"
+                    },
+                    "Sukanya Samriddhi Scheme": {
+                        "benefits": "मुलीच्या शिक्षणासाठी बचतीला **उच्च व्याज दर** आणि **कलम 80C** अंतर्गत **कर लाभ** सह प्रोत्साहन.",
+                        "details": "बेटी बचाओ बेटी पढाओ मोहिमेअंतर्गत **2015** मध्ये सुरू झाली. **उद्देश**: मुलींसाठी आर्थिक सुरक्षा आणि सक्षमीकरण वाढवणे.",
+                        "amount": "कर लाभ, उच्च व्याज",
+                        "eligibility": "मुलगी भारतीय रहिवासी असावी. वयाच्या **10 वर्षांपर्यंत** खाते उघडता येते. **प्रत्येक मुलीसाठी फक्त एक खाते**.",
+                        "exclusions": "अनिवासी भारतीय (NRIs). एकाच मुलीसाठी एकापेक्षा जास्त खाती उघडता येत नाहीत.",
+                        "application": "जवळच्या पोस्ट ऑफिस किंवा मान्यताप्राप्त बँकेत भेट द्या. फॉर्म भरा आणि किमान ₹250 ची प्रारंभिक ठेव जमा करा.",
+                        "documents": "मुलीचे जन्म प्रमाणपत्र, पालकाचे ओळखपत्र, पत्त्याचा पुरावा, फोटो, प्रारंभिक ठेव पावती.",
+                        "youtube": "https://www.youtube.com/watch?v=-SGneTb923c",
+                        "registration": "https://onlinesujeet1.blogspot.com/"
+                    },
+                    "Prime Minister's Scholarship Scheme": {
+                        "benefits": "व्यावसायिक अभ्यासक्रमांसाठी **मुलींसाठी दरमहा ₹3000** आणि **मुलांसाठी दरमहा ₹2500**.",
+                        "details": "शहीद किंवा अपंग झालेल्या **केंद्रीय पोलीस दलातील कर्मचाऱ्यांच्या मुला-मुलींना/विधवांना** आर्थिक मदत पुरवते. केवळ **व्यावसायिक पदवी अभ्यासक्रमांसाठी** लागू.",
+                        "amount": "₹3000/महिना (मुली), ₹2500/महिना (मुले)",
+                        "eligibility": "निर्दिष्ट कर्मचाऱ्यांचे मुले/विधवा. 12वी/डिप्लोमा/पदवीमध्ये किमान **60% गुण** असणे आवश्यक आहे. वय मर्यादा 18-25 वर्षे.",
+                        "exclusions": "दूरस्थ शिक्षण किंवा पत्रव्यवहार अभ्यासक्रम घेणारे विद्यार्थी. परदेशात शिक्षण घेणारे विद्यार्थी. एका कुटुंबातील फक्त दोन मुलांना/विधवांना परवानगी आहे.",
+                        "application": "**राष्ट्रीय शिष्यवृत्ती पोर्टल (NSP)** द्वारे ऑनलाइन अर्ज करा.",
+                        "documents": "ओळखपत्र, सेवा प्रमाणपत्र, शहीद/अपंगत्वाचा पुरावा, गुणपत्रिका, प्रवेशाचा पुरावा, बँक खाते तपशील.",
+                        "youtube": "https://www.youtube.com/watch?v=DmbrOgtKZUs",
+                        "registration": "https://scholarships.gov.in/"
+                    },
+                    "Pradhan Mantri Vidyalaxmi Scheme": {
+                        "benefits": "उच्च शिक्षणासाठी **₹10 लाखांपर्यंत** आर्थिक मदत.",
+                        "details": "शिक्षण मंत्रालयाने सुरू केलेली योजना. **उद्देश**: आर्थिक अडचणींमुळे कोणत्याही विद्यार्थ्याला उच्च शिक्षणापासून वंचित राहू नये याची खात्री करणे. हे पोर्टल विद्यार्थ्यांसाठी शिक्षण कर्ज मिळवण्यासाठी एकच प्रवेशद्वार आहे.",
+                        "amount": "₹10 लाखांपर्यंत",
+                        "eligibility": "घरगुती संस्थांमध्ये प्रवेश घेऊ इच्छिणारे गुणवंत विद्यार्थी.",
+                        "exclusions": "मागील कर्जाची थकबाकी असलेले अर्जदार.",
+                        "application": "विद्यालक्ष्मी पोर्टलवर नोंदणी करा. सामान्य शिक्षण कर्ज अर्ज फॉर्म (CELAF) भरा आणि अनेक बँकांना अर्ज करा.",
+                        "documents": "संस्थेचे प्रवेशपत्र, गुणपत्रिका, वयाचा पुरावा, ओळखपत्र, पत्त्याचा पुरावा, पालकांच्या उत्पन्नाचा पुरावा.",
+                        "youtube": "https://www.youtube.com/watch?v=1rN4sS_4yW0",
+                        "registration": "https://www.vidyalakshmi.co.in/EduLoan/"
+                    }
+                },
+                "Health": {
+                    "ABPMJAY": {
+                        "benefits": "**कॅशलेस आणि पेपरलेस उपचार** सह प्रति कुटुंबाला दरवर्षी **₹5 लाखांचा** विमा संरक्षण.",
+                        "details": "राष्ट्रीय आरोग्य प्राधिकरणाने (NHA) **23 सप्टेंबर 2018** रोजी सुरू केली. **उद्देश**: गरीब आणि असुरक्षित कुटुंबांना मोफत, दर्जेदार आरोग्य सेवा प्रदान करणे आणि वैद्यकीय उपचारांवरील खर्चात कपात करणे.",
+                        "amount": "₹5 लाख प्रति कुटुंब",
+                        "eligibility": "**SECC 2011 डेटानुसार** ओळखले गेलेले कुटुंबे.",
+                        "exclusions": "इतर सरकारी आरोग्य योजनांचा लाभ घेणाऱ्या व्यक्ती, आयकर भरणारे आणि उच्च उत्पन्न असलेले कुटुंबे.",
+                        "application": "कोणतेही औपचारिक नोंदणी शुल्क नाही. पात्रता SECC 2011 मधून निश्चित केली जाते. लाभार्थी अधिकृत वेबसाइट किंवा कॉल सेंटरद्वारे पात्रता तपासू शकतात.",
+                        "documents": "आधार कार्ड / रेशन कार्ड, फॅमिली आयडी / SECC आयडी, निवासस्थानाचा पुरावा.",
+                        "youtube": "https://www.youtube.com/watch?v=Tt5uJawMvcQ",
+                        "registration": "https://beneficiary.nha.gov.in/"
+                    },
+                    "Abha": {
+                        "benefits": "वैद्यकीय इतिहासाच्या सुरक्षित साठवणुकीसाठी एक अद्वितीय **14-अंकी डिजिटल आरोग्य आयडी**.",
+                        "details": "आयुष्मान भारत डिजिटल मिशन (ABDM) अंतर्गत **सप्टेंबर 2021** मध्ये सुरू झाली. **उद्देश**: प्रत्येक नागरिकासाठी एक अद्वितीय डिजिटल आरोग्य आयडी तयार करणे.",
+                        "amount": "लागू नाही",
+                        "eligibility": "वैध ओळखपत्रासह कोणताही भारतीय नागरिक. नोंदणी ऐच्छिक आहे.",
+                        "exclusions": "वैध भारतीय ओळखपत्र नसलेले परदेशी नागरिक.",
+                        "application": "अधिकृत वेबसाइट healthid.ndhm.gov.in किंवा ABHA मोबाइल ॲपद्वारे नोंदणी करा.",
+                        "documents": "आधार कार्ड किंवा ड्रायव्हिंग लायसन्स, मोबाइल नंबर, ईमेल आयडी (ऐच्छिक).",
+                        "youtube": "https://www.youtube.com/watch?v=-XqT2gbVc94",
+                        "registration": "https://abha.abdm.gov.in/abha/v3/"
+                    },
+                    "Atal Pension Yojana": {
+                        "benefits": "60 वर्षांनंतर **₹1,000-5,000 प्रति महिना** निश्चित पेन्शनची हमी.",
+                        "details": "वित्त मंत्रालयाने **मे 2015** मध्ये सुरू केली. **उद्देश**: **असंघटित क्षेत्रातील** कामगारांसाठी सार्वत्रिक सामाजिक सुरक्षा प्रणाली प्रदान करणे आणि सेवानिवृत्तीनंतर निश्चित पेन्शन सुनिश्चित करणे.",
+                        "amount": "₹1,000-5,000 प्रति महिना",
+                        "eligibility": "18-40 वयोगटातील नागरिक ज्यांच्याकडे बचत बँक खाते आहे. किमान 20 वर्षे योगदान देणे आवश्यक.",
+                        "exclusions": "40 वर्षांवरील व्यक्ती. आयकर भरणारे (ऑक्टोबर 2022 पासून).",
+                        "application": "कोणत्याही बँक शाखा किंवा पोस्ट ऑफिसमध्ये भेट द्या. नोंदणी फॉर्म भरा. योगदान तुमच्या बचत खात्यातून आपोआप कापले जाते.",
+                        "documents": "आधार कार्ड, बँक खाते तपशील, मोबाइल नंबर, नॉमिनीचा तपशील.",
+                        "youtube": "https://youtu.be/FKIWVHHtxnA?si=jNfus8HX-Bub9HOt",
+                        "registration": "https://enps.nps-proteantech.in/eNPS/ApySubRegistration.html"
+                    },
+                    "Rashtriya Swasthya Bima Yojana (RSBY)": {
+                        "benefits": "BPL कुटुंबांसाठी **₹30,000 प्रति कुटुंबापर्यंत** आरोग्य विमा संरक्षण.",
+                        "details": "कामगार आणि रोजगार मंत्रालयाने **2008** मध्ये सुरू केली. **उद्देश**: **दारिद्र्यरेषेखालील (BPL)** कुटुंबे आणि असंघटित क्षेत्रातील कामगारांना आरोग्य विमा संरक्षण प्रदान करणे.",
+                        "amount": "₹30,000 पर्यंत प्रति कुटुंब",
+                        "eligibility": "**BPL श्रेणीतील** कुटुंबे. काही असंघटित क्षेत्रातील कामगार देखील पात्र आहेत.",
+                        "exclusions": "BPL यादीत नसलेली कुटुंबे.",
+                        "application": "सरकारी शिबिरांमध्ये नोंदणी करा. पडताळणीनंतर स्मार्ट कार्ड दिले जातात.",
+                        "documents": "ओळखपत्र, BPL कार्ड, वयाचा पुरावा, रेशन कार्ड, फोटो.",
+                        "youtube": "https://youtu.be/fRQDVg_SvKw?si=eEVo_fP97r94mSdV",
+                        "registration": "http://www.rsby.gov.in/how_works.html"
+                    },
+                    "Pradhan Mantri Suraksha Bima Yojana": {
+                        "benefits": "अपघाती मृत्यू आणि अपंगत्वासाठी **₹2 लाखांचे** विमा संरक्षण.",
+                        "details": "अपघातामुळे मृत्यू किंवा अपंगत्वासाठी संरक्षण देणारी एक वर्षाची विमा योजना. **उद्देश**: सर्व नागरिकांना अत्यंत परवडणारे विमा संरक्षण प्रदान करणे.",
+                        "amount": "₹2 लाख",
+                        "eligibility": "बचत बँक खातेधारक ज्यांचे वय **18 ते 70** वर्षांदरम्यान आहे.",
+                        "exclusions": "ज्यांच्याकडे बचत बँक खाते नाही किंवा जे निर्दिष्ट वयोगटात नाहीत.",
+                        "application": "बँक शाखेत किंवा बँकेच्या ऑनलाइन बँकिंग पोर्टलद्वारे नोंदणी करता येते.",
+                        "documents": "आधार कार्ड, बँक खाते तपशील.",
+                        "youtube": "https://www.youtube.com/watch?v=R9o6sNq1F3s",
+                        "registration": "https://jansuraksha.gov.in/"
+                    }
+                },
+                "Construction": {
+                    "Maharashtra Real Estate Regulatory Authority": {
+                        "benefits": "रिअल इस्टेट प्रकल्पांमध्ये **पारदर्शकता आणि उत्तरदायित्व** सुनिश्चित करते.",
+                        "details": "RERA कायद्यांतर्गत **1 मे 2017** रोजी स्थापित. **उद्देश**: महाराष्ट्रातील रिअल इस्टेट क्षेत्राचे नियमन करणे. खरेदीदार आणि विकासकांसाठी जलद तक्रार निवारण यंत्रणा स्थापित करते.",
+                        "amount": "लागू नाही",
+                        "eligibility": "महाराष्ट्रात काम करणारे सर्व विकासक, एजंट आणि घर खरेदीदार.",
+                        "exclusions": "500 चौ.मी. पेक्षा कमी जमीन असलेले किंवा 8 पेक्षा कमी अपार्टमेंट असलेले प्रकल्प.",
+                        "application": "विकासक आणि एजंट्सनी MahaRERA पोर्टलवर त्यांच्या प्रकल्पांची/व्यवसायाची नोंदणी करणे आवश्यक आहे.",
+                        "documents": "प्रवर्तकाचा पॅन कार्ड, जमिनीची कायदेशीर कागदपत्रे, प्रकल्प योजना, मान्यता.",
+                        "youtube": "https://youtu.be/ebQe3UXH4zk?si=gLNZm2XOcsSvL40T",
+                        "registration": "https://maharerait.mahaonline.gov.in"
+                    },
+                    "Swachh Bharat Mission – Gramin (SBM-G)": {
+                        "benefits": "वैयक्तिक शौचालय बांधण्यासाठी **आर्थिक मदत**.",
+                        "details": "**2 ऑक्टोबर 2014** रोजी सुरू झाली. **उद्देश**: ग्रामीण भारतातील उघड्यावर शौचास जाण्याची प्रथा बंद करणे आणि सुरक्षित स्वच्छता सुविधा सुनिश्चित करणे.",
+                        "amount": "विविध",
+                        "eligibility": "ज्या ग्रामीण कुटुंबाकडे शौचालय नाही. **BPL कुटुंबे, अनुसूचित जाती/जमाती आणि महिला-प्रमुख कुटुंबांना** प्राधान्य दिले जाते.",
+                        "exclusions": "ज्यांच्याकडे आधीच शौचालय आहे ती कुटुंबे अनुदानासाठी पात्र नाहीत.",
+                        "application": "ग्रामपंचायत किंवा ब्लॉक कार्यालयात अर्ज करा. आवश्यक कागदपत्रांसह अर्ज सादर करा.",
+                        "documents": "ओळखपत्र, पत्त्याचा पुरावा, BPL कार्ड, जात प्रमाणपत्र (लागू असल्यास), बँक खाते तपशील.",
+                        "youtube": "https://youtu.be/xfqG-LKXD1k?si=Dc9a3xdBExWpI_mf",
+                        "registration": "https://www.sarkaridna.com/?s=sauchalay"
+                    },
+                    "Pradhan Mantri Awas Yojana – Gramin": {
+                        "benefits": "सामान्य भागात प्रति घरासाठी **₹1.20 लाखांची** आर्थिक मदत.",
+                        "details": "**एप्रिल 2016** मध्ये सुरू झाली. **उद्देश**: 2024 पर्यंत ग्रामीण भागात 'सर्वांसाठी घर' देणे. ग्रामीण गरीब कुटुंबांना मूलभूत सुविधांसह पक्की घरे देण्याचे उद्दिष्ट आहे. घराची मालकी शक्यतो महिलेच्या नावे असते.",
+                        "amount": "₹1.20 लाख ते ₹1.30 लाख",
+                        "eligibility": "बेघर किंवा जीर्ण झालेल्या घरांमध्ये राहणारी ग्रामीण कुटुंबे. **SECC 2011 डेटानुसार** प्राधान्य दिले जाते.",
+                        "exclusions": "पक्के घर असलेली कुटुंबे पात्र नाहीत.",
+                        "application": "अर्ज SECC 2011 डेटा आणि ग्रामसभा पडताळणीवर आधारित निवडले जातात.",
+                        "documents": "ओळखपत्र, पत्त्याचा पुरावा, SECC 2011 डेटा पुरावा, बँक खाते तपशील, मनरेगा जॉब कार्ड (उपलब्ध असल्यास).",
+                        "youtube": "https://youtu.be/NJ8aHwR3aYE?si=gWqt708vajiYNnVc",
+                        "registration": "https://pmaymis.gov.in/"
+                    },
+                    "MGNREGA": {
+                        "benefits": "ग्रामीण कुटुंबांना **100 दिवसांच्या रोजगाराची** कायदेशीर हमी.",
+                        "details": "**सप्टेंबर 2005** मध्ये लागू झाला. **उद्देश**: प्रत्येक ग्रामीण कुटुंबाला एका आर्थिक वर्षात 100 दिवसांच्या अकुशल मॅन्युअल कामासाठी वेतनाच्या रोजगाराची कायदेशीर हमी देणे. तसेच ग्रामीण मालमत्तांची निर्मिती करणे.",
+                        "amount": "100 दिवसांची मजुरी",
+                        "eligibility": "18 वर्षे किंवा त्याहून अधिक वयाचा, ग्रामीण कुटुंबातील आणि अकुशल काम करण्यास तयार असलेला नागरिक.",
+                        "exclusions": "फक्त ग्रामीण भागासाठी. शहरी कुटुंबांसाठी लागू नाही.",
+                        "application": "ग्रामपंचायत कार्यालयात जॉब कार्डसाठी अर्ज करा. आवश्यक कागदपत्रांसह अर्ज सादर करा.",
+                        "documents": "ओळखपत्र, वयाचा पुरावा, निवासस्थानाचा पुरावा, फोटो, बँक खाते तपशील.",
+                        "youtube": "https://youtu.be/vet_w8oPQ44?si=mUGF0KK8OAI1of19",
+                        "registration": "https://nrega.nic.in/"
+                    },
+                    "Rural Infrastructure Development Fund (RIDF)": {
+                        "benefits": "ग्रामीण पायाभूत सुविधा निर्माण करण्यासाठी राज्य सरकारांना **कमी खर्चाचे कर्ज** पुरवते.",
+                        "details": "नाबार्डद्वारे **1995-96** मध्ये सुरू झाली. **उद्देश**: ग्रामीण पायाभूत सुविधा प्रकल्पांची पूर्तता जलद करण्यासाठी राज्य सरकारांना कमी खर्चाचे कर्ज देणे.",
+                        "amount": "लागू नाही",
+                        "eligibility": "राज्य सरकारे आणि त्यांच्या संस्था (प्राथमिक कर्जदार).",
+                        "exclusions": "पंचायती राज संस्था (PRIs) आणि NGO सामान्यतः थेट कर्जदार नसतात.",
+                        "application": "राज्य सरकारे नाबार्डकडे मंजुरीसाठी सविस्तर प्रकल्प अहवाल (DPR) सादर करतात.",
+                        "documents": "सविस्तर प्रकल्प अहवाल (DPR), राज्य सरकारची मंजुरी, जमिनीच्या मालकीची आणि मंजुरीची प्रमाणपत्रे.",
+                        "youtube": "https://youtu.be/sTT0_DYOP8s?si=i6qN67d0lEkVnBgT",
+                        "registration": "https://ridf.nabard.org/"
+                    }
+                },
+                "Women Empowerment": {
+                    "Pradhan Mantri Ujjwala Yojana": {
+                        "benefits": "दारिद्र्यरेषेखालील महिलांना **मोफत LPG कनेक्शन** आणि **₹1600** ची प्रारंभिक आर्थिक मदत.",
+                        "details": "**1 मे 2016** रोजी सुरू झाली. **उद्देश**: गरीब कुटुंबांना, विशेषतः ग्रामीण महिलांना स्वच्छ स्वयंपाकाचे इंधन (LPG) प्रदान करणे, ज्यामुळे धुरामुळे होणाऱ्या आरोग्याच्या समस्या कमी होतात.",
+                        "amount": "मोफत कनेक्शन + ₹1600",
+                        "eligibility": "18 वर्षांवरील महिला अर्जदार, ज्या BPL कुटुंबातून आहेत आणि ज्यांच्याकडे आधीच LPG कनेक्शन नाही.",
+                        "exclusions": "ज्यांच्याकडे आधीच LPG कनेक्शन आहे ती कुटुंबे पात्र नाहीत. अर्जदार BPL श्रेणीत नसतील तर पात्र नाहीत.",
+                        "application": "एलपीजी वितरकाकडून अर्ज घ्या किंवा अधिकृत PMUY वेबसाइटवरून डाउनलोड करा.",
+                        "documents": "आधार कार्ड, निवासस्थानाचा पुरावा, BPL कार्ड, जात प्रमाणपत्र (लागू असल्यास), बँक खाते तपशील.",
+                        "youtube": "https://www.youtube.com/watch?v=iSFdzzBwnJE",
+                        "registration": "https://pmuy.gov.in/e-kyc.html"
+                    },
+                    "Pradhan Mantri Matru Vandana Yojana": {
+                        "benefits": "मातृत्व लाभांसाठी तीन हप्त्यांमध्ये **₹5,000** ची आर्थिक मदत.",
+                        "details": "**2017** मध्ये सुरू झाली. **उद्देश**: गर्भवती महिला आणि स्तनदा मातांना मातृत्व लाभ देणे आणि गरोदरपणात आणि बाळंतपणानंतर वेतनाची भरपाई करणे.",
+                        "amount": "₹5,000",
+                        "eligibility": "19 वर्षांवरील महिला ज्यांचे पहिले बाळ आहे (PMMVY 2.0 अंतर्गत, दुसरे बाळ मुलगी असल्यास तेही पात्र).",
+                        "exclusions": "सरकारी/पीएसयूमध्ये नियमित नोकरीत असलेल्या महिला. इतर योजनांतर्गत समान लाभ घेणाऱ्या महिला.",
+                        "application": "जवळच्या अंगणवाडी केंद्र किंवा मान्यताप्राप्त आरोग्य सुविधेत नोंदणी करा. अर्ज भरा आणि आवश्यक कागदपत्रे सादर करा.",
+                        "documents": "ओळखपत्र, वयाचा पुरावा, गर्भधारणेचा पुरावा (MCP कार्ड), बँक खाते तपशील, फोटो.",
+                        "youtube": "https://www.youtube.com/watch?v=YAXqACXk4po",
+                        "registration": "https://pmmvy.wcd.gov.in/Home/TrainingVideo#featured-services"
+                    },
+                    "RMEWF - Financial Assistance": {
+                        "benefits": "माजी सैनिकांच्या विधवांना व्यावसायिक प्रशिक्षणासाठी **एकरकमी ₹20,000** चे अनुदान.",
+                        "details": "रक्षा मंत्री माजी सैनिक कल्याण निधी (RMEWF) द्वारे अंमलबजावणी. **उद्देश**: माजी सैनिकांच्या विधवांना कौशल्य विकास आणि व्यावसायिक प्रशिक्षणासाठी आर्थिक मदत देणे.",
+                        "amount": "₹20,000 एकरकमी",
+                        "eligibility": "अर्जदार **माजी सैनिकाची विधवा** असावी आणि मान्यताप्राप्त व्यावसायिक प्रशिक्षण अभ्यासक्रमात नोंदणी केलेली असावी.",
+                        "exclusions": "नियमित नोकरीत असलेल्या विधवा पात्र नाहीत. इतर सरकारी योजनेतून समान मदत घेणारे अर्जदार पात्र नाहीत.",
+                        "application": "जिल्हा सैनिक बोर्ड (ZSB) / राज्य सैनिक बोर्ड (RSB) मध्ये अर्ज उपलब्ध आहे. अर्ज आवश्यक कागदपत्रांसह सादर करा.",
+                        "documents": "ओळखपत्र, माजी सैनिकाची सेवा कागदपत्रे, मृत्यू प्रमाणपत्र, प्रशिक्षण संस्थेत प्रवेशाचा पुरावा.",
+                        "youtube": "http://www.youtube.com/watch?v=AdfR5CwHsMs",
+                        "registration": "https://desw.gov.in/[field_url]"
+                    },
+                    "Women Scientist Scheme-C": {
+                        "benefits": "करिअरमध्ये ब्रेक घेतलेल्या महिलांना दरमहा **₹20,000-₹25,000** चे विद्यावेतन.",
+                        "details": "विज्ञान आणि तंत्रज्ञान विभागाने (DST) **2002** मध्ये सुरू केली. **उद्देश**: ज्या महिला शास्त्रज्ञ आणि तंत्रज्ञांनी करिअरमध्ये ब्रेक घेतला आहे, त्यांना संधी उपलब्ध करून देणे.",
+                        "amount": "₹20,000 - ₹25,000/महिना",
+                        "eligibility": "विज्ञान/अभियांत्रिकीमध्ये पदव्युत्तर किंवा पीएचडी पदवी असलेल्या भारतीय महिला. वय मर्यादा: **27-45 वर्षे**.",
+                        "exclusions": "पुरुष उमेदवार पात्र नाहीत. कायमस्वरूपी सरकारी नोकरीत असलेल्या महिला पात्र नाहीत.",
+                        "application": "DST पोर्टलद्वारे ऑनलाइन अर्ज करा. निवडलेल्या उमेदवारांची लेखी परीक्षा आणि मुलाखत घेतली जाते.",
+                        "documents": "ओळखपत्र, शैक्षणिक प्रमाणपत्रे, वयाचा पुरावा, करिअर ब्रेकचा पुरावा (लागू असल्यास), जात/श्रेणी प्रमाणपत्र.",
+                        "youtube": "https://youtu.be/d6jA1hxPYe0?si=YvDoc6tgC2tsNZIh",
+                        "registration": "https://www.biotecnika.org/2023/01/wise-post-doctoral-fellowship-wise-pdf-call-for-proposals-open/"
+                    },
+                    "Savitribai Jyotirao Phule Fellowship": {
+                        "benefits": "पीएचडी करणाऱ्या एकल मुलीला दरमहा **₹31,000-₹35,000** चे विद्यावेतन.",
+                        "details": "विद्यापीठ अनुदान आयोगाने (UGC) **2023** मध्ये सुरू केली. **उद्देश**: भारतातील **एकल मुलीच्या** उच्च शिक्षण आणि संशोधनाला प्रोत्साहन देणे.",
+                        "amount": "₹31,000 - ₹35,000/महिना",
+                        "eligibility": "अर्जदार **एकल मुलगी** असावी. नियमित, पूर्णवेळ पीएचडी अभ्यासक्रमात नोंदणी केलेली असावी. वय मर्यादा: **40 वर्षे** (सर्वसाधारण).",
+                        "exclusions": "इतर फेलोशिप घेणारे उमेदवार. अर्धवेळ/दूरस्थ शिक्षण पीएचडी उमेदवार.",
+                        "application": "UGC पोर्टलद्वारे ऑनलाइन अर्ज करा. निवड UGC NET-JRF/Ph.D. प्रवेश आणि पात्रतेच्या निकषांवर आधारित आहे.",
+                        "documents": "आधार/ओळखपत्र, पीएचडी प्रवेशाचा पुरावा, एकल मुलगी असल्याचे प्रमाणपत्र, वयाचा पुरावा, बँक खाते तपशील.",
+                        "youtube": "https://www.youtube.com/watch?v=EGopb94-YrY",
+                        "registration": "https://hmas.mahait.org/"
+                    }
+                }
+            }
+        };
+
+        const pages = ['home-page', 'schemes-page'];
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const schemesList = document.getElementById('schemes-list');
+        const schemesHeading = document.getElementById('schemes-heading');
+        const schemeModal = document.getElementById('scheme-modal');
+        const modalContent = document.getElementById('modal-content');
+        const alertBox = document.getElementById('alert-box');
+        const languageToggle = document.getElementById('language-toggle');
+
+        let currentLang = 'en';
+
+        // Function to show a specific page and hide others
+        function showPage(pageId) {
+            pages.forEach(id => {
+                const page = document.getElementById(id);
+                if (page) {
+                    page.classList.remove('active');
+                }
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0); // Scroll to top on page change
+        }
+
+        // Function to show domain-specific schemes
+        function showDomain(domain) {
+            schemesHeading.textContent = (currentLang === 'en' ? domain + " Schemes" : domain + " योजना");
+            schemesList.innerHTML = '';
+            
+            const schemes = data[currentLang][domain];
+            if (!schemes) {
+                showAlert(currentLang === 'en' ? 'Content not found for this domain.' : 'या क्षेत्रासाठी माहिती उपलब्ध नाही.');
+                showPage('home-page');
+                return;
+            }
+
+            for (const schemeName in schemes) {
+                const schemeData = schemes[schemeName];
+                const card = document.createElement('div');
+                card.className = 'scheme-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer transition transform hover:scale-105';
+                card.onclick = () => showSchemeDetails(domain, schemeName);
+                card.innerHTML = `
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${schemeName}</h3>
+                    <div class="space-y-2 mt-4">
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-hand-holding-usd mr-2 text-green-500"></i>
+                            <span class="font-semibold">${currentLang === 'en' ? 'Benefits:' : 'लाभ:'}</span>
+                            <span>${schemeData.benefits}</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-money-bill-wave mr-2 text-green-500"></i>
+                            <span class="font-semibold">${currentLang === 'en' ? 'Amount:' : 'रक्कम:'}</span>
+                            <span>${schemeData.amount}</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check-circle mr-2 text-green-500"></i>
+                            <span class="font-semibold">${currentLang === 'en' ? 'Eligibility:' : 'पात्रता:'}</span>
+                            <span>${schemeData.eligibility}</span>
+                        </div>
+                    </div>
+                `;
+                schemesList.appendChild(card);
+            }
+
+            showPage('schemes-page');
+        }
+
+        // Function to show scheme details in a modal
+        function showSchemeDetails(domain, schemeName) {
+            const scheme = data[currentLang][domain][schemeName];
+            if (!scheme) {
+                showAlert(currentLang === 'en' ? 'Scheme details not found.' : 'योजनेचा तपशील उपलब्ध नाही.');
+                return;
+            }
+
+            let htmlContent = `
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">${schemeName}</h2>
+                <div class="space-y-6 text-gray-700">
+            `;
+            const sections = {
+                details: currentLang === 'en' ? 'Details' : 'तपशील',
+                benefits: currentLang === 'en' ? 'Benefits' : 'लाभ',
+                eligibility: currentLang === 'en' ? 'Eligibility' : 'पात्रता',
+                exclusions: currentLang === 'en' ? 'Exclusions' : 'अपवाद',
+                application: currentLang === 'en' ? 'Application Process' : 'अर्ज प्रक्रिया',
+                documents: currentLang === 'en' ? 'Documents Required' : 'आवश्यक कागदपत्रे'
+            };
+            
+            for (const sectionKey in sections) {
+                if (scheme[sectionKey]) {
+                    htmlContent += `
+                        <div>
+                            <span class="modal-item-title">${sections[sectionKey]}:</span>
+                            <p class="leading-relaxed">${scheme[sectionKey]}</p>
+                        </div>
+                    `;
+                }
+            }
+
+            htmlContent += `
+                    <div class="flex flex-col md:flex-row gap-4 pt-4">
+                        <a href="${scheme.youtube}" target="_blank" class="flex-1 bg-red-600 text-white text-center py-3 px-6 rounded-lg shadow-md hover:bg-red-700 transition">
+                            ${currentLang === 'en' ? 'Watch on YouTube' : 'यूट्यूबवर पहा'}
+                        </a>
+                        <a href="${scheme.registration}" target="_blank" class="flex-1 bg-green-600 text-white text-center py-3 px-6 rounded-lg shadow-md hover:bg-green-700 transition">
+                            ${currentLang === 'en' ? 'Register Now' : 'आता नोंदणी करा'}
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            modalContent.innerHTML = htmlContent;
+            schemeModal.classList.remove('hidden');
+        }
+
+        // Function to hide the modal
+        function hideModal() {
+            schemeModal.classList.add('hidden');
+        }
+
+        // Function to show an alert message
+        function showAlert(message) {
+            alertBox.textContent = message;
+            alertBox.classList.remove('hidden');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Mobile menu toggle
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function hideMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // Language toggle functionality
+        languageToggle.addEventListener('change', (e) => {
+            currentLang = e.target.checked ? 'en' : 'mr';
+            document.documentElement.lang = currentLang;
+            updateTextContent();
+            if (document.getElementById('schemes-page').classList.contains('active')) {
+                // Re-render schemes list for the current domain
+                showDomain(schemesHeading.textContent.split(' ')[0]);
+            }
+        });
+
+        function updateTextContent() {
+            document.querySelectorAll('[data-en]').forEach(element => {
+                if (currentLang === 'en') {
+                    element.textContent = element.dataset.en;
+                } else {
+                    element.textContent = element.dataset.mr;
+                }
+            });
+
+            document.querySelectorAll('[data-en-title]').forEach(element => {
+                if (currentLang === 'en') {
+                    element.setAttribute('title', element.dataset.enTitle);
+                } else {
+                    element.setAttribute('title', element.dataset.mrTitle);
+                }
+            });
+        }
+
+        // Initial check for active page
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home-page');
+            updateTextContent();
+        });
+    </script>
+</body>
+</html>
